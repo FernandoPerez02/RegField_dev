@@ -1,0 +1,138 @@
+div#general{
+  background-color: #5a7346;
+  box-sizing: border-box;
+  align-items: center;
+  height: 72vh;
+  flex-wrap: wrap;
+}
+
+div.cabezera{
+  display: flex;
+  align-items: center;
+  background: #5a7346;
+  position: relative;
+  height: 20vh;
+  border-bottom: 2px black solid;
+}
+
+img#img_logo {
+  width: 140px;
+  height: 120px;
+}
+
+div.titulo{
+  margin: auto;
+}
+
+.formulario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.cuadro{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.973);
+  border: 2px solid black;
+  border-radius: 20px;
+  height: 350px;
+  width: 350px;
+  color: #ffffff;
+  margin: auto;
+}
+
+div input.form-control{
+  height: 30px;
+}
+
+div a.btn.btn-primary{
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+div.contenido{
+  display: flex;
+  height: 420px;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 180px 0px 80px;
+  margin: auto
+
+}
+
+.carrusel {
+  width: 400px;
+  border: 5px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0px 100px;
+  margin: auto;
+}
+
+.img-carousel {
+  height: 350px;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 10px;
+  }
+
+div.mb-2{
+  display: flex;
+  justify-content: center;
+}
+
+.recu{
+  display: flex;
+  justify-content: center;
+}
+.indice{
+  display: flex;
+  justify-content: center;
+}
+
+footer{
+  display: flex;
+  padding: 1px;
+  background: rgba(0, 0, 0, 0.973);
+  border: rgba(0, 0, 0, 0.425) solid;
+  height: 8vh;
+}
+
+div.linea_atencion{
+  margin: 0px 20px;
+}
+
+img.red_social{
+  width: 30px;
+  line-height: 80px;
+  margin-left: 5px;
+}
+
+.error{
+  display: none;
+  font-size: 10px;
+}
+
+.error-activo{
+  display: block;
+  color: #ff0000;
+}
+
+.custom-swal{
+  width: 300px;
+  height: 270px;
+  margin-left: px;
+  font-size: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+
+
+
+
+

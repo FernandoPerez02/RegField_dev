@@ -1,0 +1,11 @@
+div.grafica-container {
+    width: 60vw; /* Ancho del contenedor */
+    height: 55vh; /* Alto del contenedor */
+}
+
+.custom-chart {
+    background-color: #f8f9fa; /* Color de fondo */
+    border-radius: 5px; /* Borde redondeado */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    border: 1px solid #dee2e6; /* Borde */
+}
