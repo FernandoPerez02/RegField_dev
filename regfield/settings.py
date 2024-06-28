@@ -28,7 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 #configuracion de los elementos estaticos 
-STATICFILES_DIRS = ['D:/DESARROLLO-REGFIELD/regfield/app_modul/static/aplicacion']
+STATICFILES_DIRS = [
+    
+    'D:/DESARROLLO-REGFIELD/regfield/app_modul/static/aplicacion',
+    'D:/DESARROLLO-REGFIELD/regfield/new_user/static/aplicacion'
+    ]
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_modul',
+    'new_user',
+    'gestion_crud',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +62,10 @@ ROOT_URLCONF = 'regfield.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion'],
+        'DIRS': [
+            'D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion',
+            'D:/DESARROLLO-REGFIELD/regfield/new_user/templates/aplicacion',
+            'D:\DESARROLLO-REGFIELD\regfield\gestion_crud\validations'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
