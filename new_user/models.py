@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Usuario(models.Model):
@@ -16,7 +17,9 @@ class Usuario(models.Model):
     usuario = models.CharField(max_length=15)
     gmail = models.CharField(max_length=50)
     contrasena = models.CharField(max_length=10)
-    fecha_registro = models.DateField(blank=True, null=True)
+    terminos_condiciones = models.BooleanField(default=False)
+    fecha_registro = models.DateField(blank=True, null=True, default= timezone.now)
+    
     
     def save(self, *args, **kwargs):
         if not self.id_usuario:
@@ -31,8 +34,11 @@ class Usuario(models.Model):
         super().save(*args, **kwargs) 
         
     class Meta:
-        managed = False
+        managed = True
         db_table = 'usuario'
         
     def __str__(self):
         return self.usuario
+    
+        
+    

@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-def login(request):
-    return render(request, 'login.html')
+
+def home(request):
+    return render(request, 'login3.html')
 
 def usuario(request):
     return render(request, 'crear_usuario.html')
@@ -10,6 +12,7 @@ def usuario(request):
 def contrasena(request):
     return render(request, 'contrasena.html')
 
+@login_required
 def inicio(request):
     return render(request, 'inicio.html')
 

@@ -1,7 +1,7 @@
 from django import forms
 from . import models
 
-class NewuserForm(forms.ModelForm):
+class UsuarioForm(forms.ModelForm):
     class Meta:
         model = models.Usuario
-        fields = ['rol', 'usuario', 'correo', 'contrasena']
+        fields = ['rol', 'usuario', 'gmail', 'contrasena', 'terminos_condiciones']
