@@ -3,18 +3,8 @@ from django.utils import timezone
 
 # Create your models here.
 class Usuario(models.Model):
-    SELECCIONAR = 'Seleccionar'
-    ADMINISTRADOR = 'Administrador'
-    ENCARGADO = 'Encargado'
-    
-    ROL_CHOICES = [
-        (ADMINISTRADOR, 'Administrador'),
-        (ENCARGADO, 'Encargado'),
-        (SELECCIONAR, 'Seleccionar')
-    ]
-    id_usuario = models.CharField(primary_key=True, max_length=200, editable = False)
-    rol = models.CharField(max_length=20, choices = ROL_CHOICES, default=ENCARGADO)
-    usuario = models.CharField(max_length=15)
+   
+    usuario = models.CharField(max_length=15, unique=True)
     gmail = models.CharField(max_length=50)
     contrasena = models.CharField(max_length=10)
     terminos_condiciones = models.BooleanField(default=False)
@@ -39,6 +29,32 @@ class Usuario(models.Model):
         
     def __str__(self):
         return self.usuario
+    
+    class AuthUser(models.Model):
+     SELECCIONAR = 'Seleccionar'
+    ADMINISTRADOR = 'Administrador'
+    ENCARGADO = 'Encargado'
+    
+    ROL_CHOICES = [
+        (ADMINISTRADOR, 'Administrador'),
+        (ENCARGADO, 'Encargado'),
+    ]
+    rol = models.CharField(max_length=20, choices = ROL_CHOICES, default=ENCARGADO)
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+    
     
         
     

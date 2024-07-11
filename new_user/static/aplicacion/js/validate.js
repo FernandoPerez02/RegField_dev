@@ -135,7 +135,7 @@ const validateform = (e) => {
                 break;
         
                 case 'contrasena2':
-                    const contrasena = document.getElementById('password')
+                    const contrasena = document.getElementById('password').value;
                     if(e.target.value == '') {
                         error = mensajeError.campoVacio()
                         showerror(true, e.target);

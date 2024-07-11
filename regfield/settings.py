@@ -28,25 +28,23 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 #configuracion de los elementos estaticos 
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    
     'D:/DESARROLLO-REGFIELD/regfield/app_modul/static/aplicacion',
-    'D:/DESARROLLO-REGFIELD/regfield/new_user/static/aplicacion', 
-    'D:/DESARROLLO-REGFIELD/regfield/login/static',
-    
+    'D:/DESARROLLO-REGFIELD/regfield/gestion/static/app_gestion',    
     ]
 # Application definition
 
 INSTALLED_APPS = [
+    'gestion',
+    'app_modul',
+    'new_user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_modul',
-    'login',
-    'new_user',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +65,8 @@ TEMPLATES = [
         'DIRS': [
             'D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion',
             'D:/DESARROLLO-REGFIELD/regfield/new_user/templates/aplicacion',
-            'D:/DESARROLLO-REGFIELD/regfield/login/templates/registration',
+            'D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion/registration',
+            'D:/DESARROLLO-REGFIELD/regfield/gestion/templates/app_gestion'
             ],
         'APP_DIRS': True,
         'OPTIONS': {

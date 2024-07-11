@@ -1,0 +1,139 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+
+<html>
+  <head>
+
+  </head>
+  <body>
+    
+      <style>
+        button{
+          border: 1px solid black;
+          border-radius: 10px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          background-color: rgb(34, 5, 61);
+          color: white;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 15px;
+          padding: 10px;
+          margin-bottom: 15px ;
+        }
+      </style>
+    
+     <table class="table">
+       <thead>
+         <tr>
+          <tr>
+            <th>Empleado</th>
+            <th>Kilos</th>
+            <th>Tipo Registro</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {% for list in listarecoleccion %}
+          <tr>
+            <td>{{list.id_empleado}}</td>
+            <td>{{list.peso}}</td>
+            <td>{{list.id_tipo_registro}}</td>
+            <td>{{list.fecha}}</td>
+            <td>
+              <a href="{% url 'editarcafe' list.id_cafe %}"><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edicionModal" id="btnEditar">Actualizar</button></a>
+       <a href="{% url 'delete' list.id_cafe %}"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button><a href="#"></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+       </table> 
+
+
+       <!-- Modal -->
+
+       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
+       
+       
+       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+               <form action="{% url 'agregaregistrocafe' %}"
+               id="formulario"
+               method="post">
+               {% csrf_token %}
+                 <div class="mb-3">
+                  <select
+                        name="id_empleado"
+                        id="empleado_select"
+                        class="form-control"
+                        data-url="{% url 'obtenerempleado' %}"
+                        onchange="asignarIdempleado()"
+                      >
+                        <option value="">Asignar Empleado</option>
+                      </select>
+                      <input type="hidden" id="empleado" name="empleado" />
+                 </div>
+
+                 <div class="mb-3">
+                   <label for="message-text" class="col-form-label">Kilos:</label>
+                   <input
+                        type="text"
+                        class="form-control"
+                        name="peso"
+                        id="peso"
+                      />
+                 </div>
+
+                 <div class="mb-3">
+                  <select
+                        name="id_tipo_registro"
+                        id="tipo_select"
+                        class="form-control"
+                        data-url="{% url 'obtenertiporegistro' %}"
+                        onchange="asignarIdtiporegistro()"
+                      >
+                        <option value="">Asignar tipo registro</option>
+                      </select>
+                      <input
+                        type="hidden"
+                        name="tipo_registro"
+                        id="tipo_registro"
+                      />
+                </div>
+
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Fecha:</label>
+                  <input
+                        type="date"
+                        class="form-control"
+                        name="fecha"
+                        id="fecha"
+                      />
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button href="{% url 'gestioncafe' %}" type="submit" class="btn btn-primary">Agregar</button>
+               </form>
+             </div>
+             
+             </div>
+           </div>
+         </div>
+       </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../../static/app_gestion/js/obteneregistros.js"></script>
+    <script src="../../static/app_gestion/js/funccioncrud.js"></script>
+  </body>
+</html>
+{% endblock %}

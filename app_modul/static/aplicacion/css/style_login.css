@@ -1,116 +1,65 @@
-div#general{
-  background-color: #5a7346;
-  box-sizing: border-box;
-  align-items: center;
-  height: 72vh;
-  flex-wrap: wrap;
+body {
+  background-image: url(../media/img_4.jpg);
+  background-repeat: no-repeat;
+  background-size: 100vw 99.95vh;
 }
-
-div.cabezera{
-  display: flex;
-  align-items: center;
-  background: #5a7346;
-  position: relative;
-  height: 20vh;
-  border-bottom: 2px black solid;
-}
-
 img#img_logo {
   width: 140px;
   height: 120px;
-}
-
-div.titulo{
-  margin: auto;
 }
 
 .formulario {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 90vh;
   margin: auto;
 }
 
 .cuadro{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.973);
-  border: 2px solid black;
+  background-color: rgb(96, 95, 114, 0.1);
+  gap: 10px;
   border-radius: 20px;
-  height: 350px;
-  width: 350px;
+  height: 60vh;
+  width: 40vw;
   color: #ffffff;
   margin: auto;
 }
 
-div input.form-control{
-  height: 30px;
+label {
+  font-size: 20px;
 }
 
 div a.btn.btn-primary{
   display: flex;
   align-items: center;
-  height: 30px;
 }
 
-div.contenido{
-  display: flex;
-  height: 420px;
-  justify-content: center;
-  align-items: center;
-  margin: 0px 180px 0px 80px;
-  margin: auto
 
+#form_login {
+  gap: 10px;
 }
 
-.carrusel {
-  width: 400px;
-  border: 5px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 0px 100px;
-  margin: auto;
-}
-
-.img-carousel {
-  height: 350px;
-  overflow: hidden;
-  box-sizing: border-box;
-  border-radius: 10px;
-  }
 
 div.mb-2{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  gap: 20px;
 }
 
 .recu{
   display: flex;
   justify-content: center;
-}
-.indice{
-  display: flex;
-  justify-content: center;
-}
-
-footer{
-  display: flex;
-  padding: 1px;
-  background: rgba(0, 0, 0, 0.973);
-  border: rgba(0, 0, 0, 0.425) solid;
-  height: 8vh;
+  margin: auto;
+  
+  
 }
 
-div.linea_atencion{
-  margin: 0px 20px;
-}
-
-img.red_social{
-  width: 30px;
-  line-height: 80px;
-  margin-left: 5px;
-}
 
 .error{
   display: none;
