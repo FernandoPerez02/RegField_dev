@@ -21,11 +21,39 @@
           padding: 10px;
           margin-bottom: 15px ;
         }
+
+        .table-container {
+          width: 100%;
+          height: 50vh;
+        }
+
+        .table-container .table {
+          width: 100%;
+          table-layout: fixed;
+        }
+
+        .scrollable-table {
+          max-height: 40vh; /* Ajusta esta altura según tus necesidades */
+          overflow-y: auto;
+        }
+
+        .scrollable-table table {
+          width: 100%;
+          table-layout: fixed;
+        }
+
+        .scrollable-table th,
+        .scrollable-table td {
+          padding: 8px; /* Ajusta el padding según tus necesidades */
+          text-align: left;
+        }
+
+
       </style>
     
-     <table class="table">
-       <thead>
-         <tr>
+    <div class="table-container">
+      <table class="table">
+        <thead>
           <tr>
             <th>Empleado</th>
             <th>Kilos</th>
@@ -34,22 +62,31 @@
             <th>Opciones</th>
           </tr>
         </thead>
-        
-        <tbody>
-          {% for list in listarecoleccion %}
-          <tr>
-            <td>{{list.id_empleado}}</td>
-            <td>{{list.peso}}</td>
-            <td>{{list.id_tipo_registro}}</td>
-            <td>{{list.fecha}}</td>
-            <td>
-              <a href="{% url 'editarcafe' list.id_cafe %}"><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edicionModal" id="btnEditar">Actualizar</button></a>
-       <a href="{% url 'delete' list.id_cafe %}"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button><a href="#"></a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-       </table> 
+      </table>
+      <div class="scrollable-table">
+        <table class="table">
+          <tbody>
+            {% for list in listarecoleccion %}
+            <tr class="lista">
+              <td>{{list.id_empleado}}</td>
+              <td>{{list.peso}}</td>
+              <td>{{list.id_tipo_registro}}</td>
+              <td>{{list.fecha}}</td>
+              <td>
+                <a href="{% url 'editarcafe' list.id_cafe %}">
+                  <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edicionModal" id="btnEditar">Actualizar</button>
+                </a>
+                <a href="{% url 'delete' list.id_cafe %}">
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
 
 
        <!-- Modal -->

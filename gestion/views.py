@@ -70,6 +70,8 @@ def eliminar(request, id_cafe):
     registro = get_object_or_404(models.ManejoCafe, id_cafe=id_cafe)
     registro.delete()
     return redirect('gestioncafe')
+
+
             
 
 

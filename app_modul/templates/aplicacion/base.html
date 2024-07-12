@@ -29,7 +29,12 @@
         </div>
 
         <div class="titulo">
-          <h1 id="finca">Nombre de la finca</h1>
+          
+            {% for finca in nameFinca %}
+            <h1 id="finca">
+            {{finca.nombre_finca}}
+            </h1>
+            {% endfor %}
         </div>
 
         <div class="usuario">
@@ -87,17 +92,6 @@
 
     <footer>
       <div class="pie_pagina">
-        <img
-          src="https://img.icons8.com/water-color/50/000000/whatsapp.png"
-          class="red_social"
-          alt="whatsapp"
-        />
-
-        <img
-          src="https://img.icons8.com/color/48/000000/facebook-new.png"
-          class="red_social"
-          alt="facebook"
-        />
         <img
           src="https://img.icons8.com/color/48/gmail-new.png"
           class="red_social"

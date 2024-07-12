@@ -104,3 +104,16 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
+        
+class DatosFinca(models.Model):
+    id_configuracion = models.IntegerField(primary_key=True)
+    nit_finca = models.IntegerField()
+    nombre_finca = models.CharField(max_length=45)
+    nombre_responsable = models.CharField(max_length=50)
+    telefono_responsable = models.IntegerField()
+    direccion = models.CharField(max_length=45)
+    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'datos_finca'

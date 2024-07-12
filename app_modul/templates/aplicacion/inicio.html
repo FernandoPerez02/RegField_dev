@@ -7,6 +7,7 @@
       rel="stylesheet"
       href="{% static 'aplicacion/css/style_dashboard.css' %}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
       <div
@@ -18,35 +19,53 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
-          const ctx = document.getElementById("myChart");
+          const ctx = document.getElementById("myChart").getContext('2d');
+          var kilos = JSON.parse('{{ kilos|safe }}');
+
+        // Función para obtener el nombre del día de la semana
+        function obtenerDiaSemana(fechaStr) {
+            const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            const fecha = new Date(fechaStr);
+            return diasSemana[fecha.getDay()];
+        }
+
+        // Agrupar los pesos por día de la semana
+        const pesosPorDia = kilos.reduce((acc, kilo) => {
+            const diaSemana = obtenerDiaSemana(kilo.fecha);
+            if (!acc[diaSemana]) {
+                acc[diaSemana] = 0;
+            }
+            acc[diaSemana] += kilo.total_peso;
+            return acc;
+        }, {});
+
+        const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const pesos = diasSemana.map(dia => pesosPorDia[dia] || 0);
+
+
+
+                  // Generar un array de colores para cada barra
+        var colors = pesos.map(function(_, index) {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return {
+                backgroundColor: `rgba(${r}, ${g}, ${b}, 0.2)`,
+                borderColor: `rgba(${r}, ${g}, ${b}, 1)`
+            };
+        });
 
           new Chart(ctx, {
             type: "bar",
             data: {
-              labels: ["Enero", "Febrero", "Marzo", "Abril", "Junio", "Julio"],
+              labels: diasSemana,
               datasets: [
                 {
                   label: "Resultados de Cosecha",
-                  data: [12, 19, 3, 5, 2, 3],
-                  backgroundColor: [
-                    // Matriz de colores
-                    "rgba(255, 99, 132, 0.2)", // Rojo
-                    "rgba(54, 162, 235, 0.2)", // Azul
-                    "rgba(255, 206, 86, 0.2)", // Amarillo
-                    "rgba(75, 192, 192, 0.2)", // Verde
-                    "rgba(153, 102, 255, 0.2)", // Morado
-                    "rgba(255, 159, 64, 0.2)", // Naranja
-                  ],
-                  borderColor: [
-                    // Colores de borde
-                    "rgba(255, 99, 132, 1)", // Rojo
-                    "rgba(54, 162, 235, 1)", // Azul
-                    "rgba(255, 206, 86, 1)", // Amarillo
-                    "rgba(75, 192, 192, 1)", // Verde
-                    "rgba(153, 102, 255, 1)", // Morado
-                    "rgba(255, 159, 64, 1)", // Naranja
-                  ],
-                  borderWidth: 1,
+                  data: pesos,
+                  backgroundColor: colors.map(color => color.backgroundColor),
+                    borderColor: colors.map(color => color.borderColor),
+                    borderWidth: 1
                 },
               ],
             },
@@ -59,21 +78,6 @@
             },
           });
 
-          const data = {
-            labels: ["Red", "Blue", "Yellow"],
-            datasets: [
-              {
-                label: "My First Dataset",
-                data: [300, 50, 100],
-                backgroundColor: [
-                  "rgb(255, 99, 132)",
-                  "rgb(54, 162, 235)",
-                  "rgb(255, 205, 86)",
-                ],
-                hoverOffset: 4,
-              },
-            ],
-          };
         </script>
       </div>
   </body>
