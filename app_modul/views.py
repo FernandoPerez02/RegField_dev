@@ -5,6 +5,7 @@ import json
 from django.db.models import Sum
 
 # Create your views here.
+@login_required
 def base(request):
     nameFinca = DatosFinca.objects.all().values('nombre_finca')
     return render(request, 'base.html', {'nameFinca':nameFinca})

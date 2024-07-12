@@ -59,15 +59,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'regfield.urls'
 
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            'D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion',
-            'D:/DESARROLLO-REGFIELD/regfield/new_user/templates/aplicacion',
-            'D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion/registration',
-            'D:/DESARROLLO-REGFIELD/regfield/gestion/templates/app_gestion'
-            ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from .froms import Manejocafeform
@@ -7,6 +8,7 @@ from . import models
 # Create your views here.
 
 """ Manejo de cafe """
+@login_required
 def editar(request, id_cafe):
     regedit = get_object_or_404(models.ManejoCafe, id_cafe=id_cafe)
     
@@ -27,20 +29,22 @@ def editar(request, id_cafe):
     
     return render(request, 'editar.html', {'data': data, 'listarecoleccion': listar_recoleccion})
 
-
+@login_required
 def obtener_empleados(request):
     empleados = models.Empleado.objects.all().values('id_empleado', 'nombre')
     return JsonResponse(list(empleados), safe=False)
 
+@login_required
 def obtener_tiporegistro(request):
     tipo = models.TipoRegistro.objects.all().values('id_tipo_registro', 'tipo_registro')
     return JsonResponse(list(tipo), safe=False)
 
+@login_required
 def cafe(request):
     listar_recoleccion = models.ManejoCafe.objects.all()
     return render(request, 'manejo_cafe.html', {'listarecoleccion':listar_recoleccion})
 
-
+@login_required
 def agregaregistrocafe(request):
     if request.method == 'POST':
         id_empleado = request.POST['id_empleado']
@@ -61,11 +65,11 @@ def agregaregistrocafe(request):
         
         return redirect('gestioncafe')
         
-    
+@login_required  
 def gestioncafe(request):
     listar_recoleccion = models.ManejoCafe.objects.all()
     return render(request, 'Editarcafe.html', {'listarecoleccion':listar_recoleccion})
-    
+   
 def eliminar(request, id_cafe):
     registro = get_object_or_404(models.ManejoCafe, id_cafe=id_cafe)
     registro.delete()
