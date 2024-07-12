@@ -28,17 +28,23 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 #configuracion de los elementos estaticos 
-STATICFILES_DIRS = ['D:/DESARROLLO-REGFIELD/regfield/app_modul/static/aplicacion']
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    'D:/DESARROLLO-REGFIELD/regfield/app_modul/static/aplicacion',
+    'D:/DESARROLLO-REGFIELD/regfield/gestion/static/app_gestion',    
+    ]
 # Application definition
 
 INSTALLED_APPS = [
+    'gestion',
+    'app_modul',
+    'new_user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_modul',
 ]
 
 MIDDLEWARE = [
@@ -53,10 +59,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'regfield.urls'
 
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['D:/DESARROLLO-REGFIELD/regfield/app_modul/templates/aplicacion'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app_modul.context_processor.name_finca',
             ],
         },
     },

@@ -1,29 +1,27 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from gestion.models import ManejoCafe, DatosFinca
+import json
+from django.db.models import Sum
 
 # Create your views here.
-def login(request):
-    return render(request, 'login.html')
+@login_required
+def base(request):
+    nameFinca = DatosFinca.objects.all().values('nombre_finca')
+    return render(request, 'base.html', {'nameFinca':nameFinca})
 
-def usuario(request):
-    return render(request, 'crear_usuario.html')
-
-def contrasena(request):
-    return render(request, 'contrasena.html')
-
+@login_required
 def inicio(request):
-    return render(request, 'inicio.html')
+    kilos = ManejoCafe.objects.all().values('fecha').annotate(total_peso=Sum('peso'))
+    
+    for item in kilos:
+        item['fecha'] = item['fecha'].isoformat()
+    kilos_json = json.dumps(list(kilos))  # Serializa el queryset a JSON
+    context = {
+        'kilos': kilos_json
+    }
+    return render(request, 'inicio.html', context)
 
-def empleado(request):
-    return render(request, 'empleado.html')
-
-def inventario(request):
-    return render(request, 'inventario.html')
-
-def cafe(request):
-    return render(request, 'manejo_cafe.html')
-
-def labor(request):
-    return render(request, 'labor.html')
-
+@login_required
 def finca(request):
     return render(request, 'datos_finca.html')

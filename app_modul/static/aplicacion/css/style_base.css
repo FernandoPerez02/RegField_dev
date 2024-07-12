@@ -29,7 +29,7 @@ div.menu {
     flex-direction: column;
     justify-content: space-around;
     background: #5a7346;
-    width: 400px;
+    width: 25vw;
     font-size: 25px;
         
   }
@@ -87,6 +87,7 @@ div.content_canbiante{
     height: 55vh;
     align-items: center;
     justify-content: center;
+
 }
 
 footer{
@@ -99,3 +100,5 @@ img.red_social{
     width: 40px;
     margin-left: 5px;
   }
+
+

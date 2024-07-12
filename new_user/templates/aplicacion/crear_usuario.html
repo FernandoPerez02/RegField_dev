@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro administrador</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'aplicacion/css/style_usuario.css' %}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+  </head>
+<body>
+        <div class="formulario">
+          <div class="contenido">
+          <header>
+            <h1 class="text">Nuevo Usuario</h1>
+        </header>
+
+          <form action="{% url 'registrar' %}" method="post" id="form_newuser" class="needs-validated">
+            {% csrf_token %}
+
+            <div class="registro">
+        
+            <div class="grup_roles">
+                <label for="opcionrol" class="rol">Rol</label>
+                <select name="rol" id="opcionrol" class="form-select" >
+                  <option value="Seleccionar">Seleccionar</option>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Encargado">Encargado</option>
+                </select>
+                <span id="rol_error" class="mensaje_error"></span>
+                <span id="sugerencia_rol" class="mensaje_requisito"></span>
+              </div>
+        
+              <div class="grup_usuario">
+                <label for="user" class="form-label">Usuario</label>
+                <input type="text" name="usuario" class="form-control" id="user" placeholder="JoseRuiz">
+                <span id="usuario_error" class="mensaje_error"></span>
+                <span id="usuario_valido" class="valido"></span>
+                <span id="usuario_sugerencia" class="mensaje_requisito"></span>
+              </div>
+
+              <div class="documento">
+                <label for="identificacion">Documento</label>
+                <input type="number" name="documento" id="identificacion" class="form-control" placeholder="1043948967">
+                <span id="doc_error" class="mensaje_error"></span>
+              </div>
+        
+              <div class="grup_correo">
+                <label for="gmail" class="form-label">Correo Eletronico</label>
+                <input type="email" name="gmail" class="form-control" id="gmail" placeholder="joseruiz@gmail.com">
+                <span id="correo_error" class="mensaje_error"></span>
+                <span id="correo_valido" class="valido"></span>
+                <span id="sugerencia_rol" class="mensaje_requisito"></span>
+              </div>
+        
+              <div class="grup_password">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" name="contrasena" class="form-control" id="password">
+                <span id="password_error" class="mensaje_error"></span>
+                <span id="password_valido" class="valido"></span>
+                <span id="sugerencia_password" class="mensaje_requisito"></span>
+              </div>
+        
+              <div class="confi_password">
+                <label for="confipassword" class="form-label">Confirmar Contraseña</label>
+                <input type="password" name="contrasena2" class="form-control" id="confipassword">
+                <span id="password2_error" class="mensaje_error"></span>
+                <span id="password2_valido" class="valido"></span>
+              </div>
+              </div>
+
+            <div class="check">            
+              <div class="form-check">
+                <input type="checkbox" name="terminos_condiciones" id="ter_con">
+                <label for="ter_con" class="term">Acepta los Terminos y Condiciones</label>
+                <span id="ter_con_error" class="mensaje_error"></span>
+              </div>
+          
+              <div class="botones">
+                <div class="btn_cancelar">
+                  <a href="{% url 'login' %}" class="btn btn-primary" 
+                  role="button" id="btn_cancel">Cancelar</a>
+                </div>
+          
+                <div class="btn_registrar">
+                  <a href=""><button type="submit" class="btn btn-primary" id="btn_register"
+                    data-bs-toggle="modal" data-bs-target="#Modalpermisos">Registrar</button></a>
+                </div>
+              </div>
+            </div>
+            <span id="alertError" class="mensaje_error"></span>
+          </form>
+          </div>
+          <script src="{% static 'aplicacion/js/validate.js' %}"></script>
+        
+          </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
