@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+  <script>
+    function openEditModal(id_empleado) {
+      document.getElementById("formulario").action = "{% url 'editaremple' 0 %}".replace('0', id_empleado);
+      var myModal = new bootstrap.Modal(document.getElementById('edicionModal'), {
+        keyboard: false
+      });
+      myModal.show();
+    }
+  </script>
+</head>
+<body>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Documento</th>
+        <th>Telefono</th>
+        <th>Correo</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for list in listar_empleado %}
+      <tr>
+        <td>{{ list.nombre }}</td>
+        <td>{{ list.apellido }}</td>
+        <td>{{ list.documento }}</td>
+        <td>{{ list.telefono }}</td>
+        <td>{{ list.correo }}</td>
+        <td>{{ list.fecha }}</td>
+        <td>{{ list.id_estado }}</td>
+        <td>
+          <button type="button" class="btn btn-info" onclick="openEditModal('{{ list.id_empleado }}')">Editar</button>
+          <a href="{% url 'empleados' %}" class="btn btn-secondary">Volver</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Modal de edición -->
+  <div class="modal fade" id="edicionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar registro</h5>
+        </div>
+        <div class="modal-body">
+          <form id="formulario" method="post">
+            {% csrf_token %}
+            {{ data.form }}
+            <div class="modal-footer">
+            
+              <a href="{% url 'empleados' %}" class="btn btn-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}
