@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 
 # Create your views here.
-login_required
+
 def nuevo_usuario(request):
     return render(request, 'crear_usuario.html')
 

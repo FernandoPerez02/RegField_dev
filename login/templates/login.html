@@ -25,47 +25,23 @@
                 <h1>Bienvenido a RegField</h1>
               </header>
 
-              <form action="" method="post" id="form_login">
+              <form method="post">
                 {% csrf_token %}
-            
-                <div class="mb-3" id="grup_usuario">
-                  <label class="form-label">Usuario</label>
-                  <input
-                    type="text"
-                    name="username"
-                    class="form-control"
-                    id="user"
-                    placeholder="Ingrese el usuario"
-                    required
-                  />
-                </div>
-                
-                <div class="mb-3" id="grup_contraseña">
-                  <label class="form-label">Contraseña</label>
-                  <input
-                    type="password"
-                    name="password"
-                    class="form-control"
-                    id="password"
-                    placeholder="Ingrese la contraseña"
-                  />
-                </div>
-                
+                {{ form.as_p }}
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+                 
                 <span class="recu">
                   <a href="#"
                     >¿Olvido su contraseña?
                   </a>
                 </span>
-            
-                <div class="mb-2">
-                  <button type="submit" class="btn btn-primary"
-                    id="btn_iniciar"
-                  >
-                    Ingresar</button
-                  >
-                </div>
 
-              </form>
             </div>
           </div>
     <script
