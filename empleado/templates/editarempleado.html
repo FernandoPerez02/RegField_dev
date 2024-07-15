@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+  
+</head>
+<body>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Documento</th>
+        <th>Telefono</th>
+        <th>Correo</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for list in listar_empleado %}
+      <tr>
+        <td>{{ list.nombre }}</td>
+        <td>{{ list.apellido }}</td>
+        <td>{{ list.documento }}</td>
+        <td>{{ list.telefono }}</td>
+        <td>{{ list.correo }}</td>
+        <td>{{ list.fecha }}</td>
+        <td>{{ list.id_estado.estado }}</td>
+        <td>
+          <a href="{% url 'editarempleado' list.id_empleado %}"><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edicionModal" id="btnEditar">Editar</button></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  <div class="modal fade" id="edicionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar registro</h5>
+        </div>
+        <div class="modal-body">
+          <form id="formulario" method="post">
+            {% csrf_token %}
+            {{ data.form }}
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edicionModal" data-id="1">Confirmar Edición</button>
+    <a href="{% url 'empleado' %}"><button type="button" class="btn btn-secondary">Volver</button></a>
+  </h2>
+</body>
+</html>
+{% endblock %}
