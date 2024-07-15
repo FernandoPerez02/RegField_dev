@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  button {
+    border: 1px solid black;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color: rgb(34, 5, 61);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table-container {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .table-container .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .scrollable-table {
+    max-height: 40vh; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+  }
+
+  .scrollable-table table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .scrollable-table th,
+  .scrollable-table td {
+    padding: 8px; /* Ajusta el padding según tus necesidades */
+    text-align: left;
+  }
+
+  .table-container .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+</style>
+
+<div class="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Descripcion</th>
+        <th>Lote</th>
+        <th>Fecha</th>
+        <th>Empleado</th>
+        <th>Estado</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+  </table>
+  <div class="scrollable-table">
+    <table class="table">
+      <tbody>
+        {% for list in listar_labor %}
+        <tr class="lista">
+          <td>{{ list.descripcion }}</td>
+          <td>{{ list.lote }}</td>
+          <td>{{ list.fecha_labor }}</td>
+          <td>{{ list.id_empleado.nombre }}</td>
+          <td>{{ list.id_estado.estado }}</td>
+          <td>
+            {% if list.id_labor %}
+              <a href="{% url 'editarlabor' list.id_labor %}">
+                <button type="button" class="btn btn-info">Actualizar</button>
+              </a>
+              <form action="{% url 'eliminarlabor' list.id_labor %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+              </form>
+            {% else %}
+              <button type="button" class="btn btn-secondary" disabled>Actualizar</button>
+              <button type="button" class="btn btn-secondary" disabled>Eliminar</button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'agregaregistrolabor' %}" method="post">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="descripcion">Descripcion</label>
+              <input type="text" class="form-control" name="descripcion" id="descripcion" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lote">Lote</label>
+              <input type="number" class="form-control" name="lote" id="lote" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="fecha_labor">Fecha</label>
+              <input type="date" class="form-control" name="fecha_labor" id="fecha_labor" required>
+            </div>
+            <div class="mb-3">
+              <select
+                    name="id_empleado"
+                    id="empleado_select"
+                    class="form-control"
+                    data-url="{% url 'obtenerempleado' %}"
+                    onchange="obtenerEmpleado()"
+                  >
+                    <option value="">Asignar Empleado</option>
+                  </select>
+                  <input type="hidden" id="empleado" name="empleado" />
+             </div>
+             <div class="mb-3">
+              <select
+                    name="id_estado"
+                    id="estado_select"
+                    class="form-control"
+                    data-url="{% url 'obtenerestado' %}"
+                    onchange="obtenerEstado()"
+                  >
+                    <option value="">Asignar Estado</option>
+                  </select>
+                  <input type="hidden" id="estado" name="estado" />
+             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    obtenerEmpleado();
+    obtenerEstado();
+  });
+
+  function obtenerEmpleado() {
+    const urlEmpleado = "{% url 'obtenerempleado' %}";
+    fetch(urlEmpleado)
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById('empleado_select');
+        data.forEach(empleado => {
+          const option = document.createElement('option');
+          option.value = empleado.id_empleado;  
+          option.textContent = empleado.nombre;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Hubo un problema con la solicitud Fetch:', error);
+      });
+  }
+
+  function obtenerEstado() {
+    const urlEstado = "{% url 'obtenerestado' %}";
+    fetch(urlEstado)
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById('estado_select');
+        data.forEach(estado => {
+          const option = document.createElement('option');
+          option.value = estado.id_estado;
+          option.textContent = estado.estado;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Hubo un problema con la solicitud Fetch:', error);
+      });
+  }
+</script>
+
+{% endblock %}
