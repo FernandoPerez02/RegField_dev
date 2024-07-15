@@ -1,7 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
     listarEmpleados();
     obtenerTipoRegistro();
+    listaestado();
   });
+
+  function listaestado() {
+    const url = document.getElementById('producto_select').dataset.url;
+    fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const select = document.getElementById('producto_select');
+      data.forEach(estado => {
+        const option = document.createElement('option');
+        option.value = estado.id_estado;
+        option.textContent = estado.estado;
+        select.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error('Hubo un problema con la solicitud fetch:', error);
+    });
+  }
+
+  function asignarIdestado() {
+    const select = document.getElementById('producto_select');
+    const idEstado = select.value;
+    document.getElementById('estadoid').value = idEstado;
+  }
   
   function listarEmpleados() {
     const url = document.getElementById('empleado_select').dataset.url;

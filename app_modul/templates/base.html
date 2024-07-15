@@ -7,7 +7,7 @@
     <title>Inicio</title>
     <link
       rel="stylesheet"
-      href="{% static 'aplicacion/css/style_base.css' %}"
+      href="{% static 'css/style_base.css' %}"
     />
     
     <link
@@ -23,7 +23,7 @@
         <div class="logo_img">
           <img
             class="img_logo"
-            src="{% static 'aplicacion/media/Logo.regfield.png' %}"
+            src="{% static 'media/Logo.regfield.png' %}"
             alt="img"
           />
         </div>
@@ -54,10 +54,10 @@
           <ul>
             <a href="{% url 'inicio' %}"><h3>Inicio</h3></a>
             <a href="#"><h3>Empleados</h3></a>
-            <a href="#"><h3>Inventario</h3></a>
+            <a href="{% url 'inventario' %}"><h3>Inventario</h3></a>
             <a href="{% url 'gestioncafe' %}"><h3>Manejo Cafe</h3></a>
             <a href="#"><h3>Labor</h3></a>
-            <a href="{% url 'finca' %}"><h3>Datos Finca</h3></a>
+            <a href="{% url 'confi' %}"><h3>Datos Finca</h3></a>
           </ul>
         </nav>
       </div>

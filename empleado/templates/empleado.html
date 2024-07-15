@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  button {
+    border: 1px solid black;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color: rgb(34, 5, 61);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table-container {
+    width: 160%;
+    height: 60vh;
+  }
+
+  .table-container .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .scrollable-table {
+    max-height: 180vh; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+  }
+
+  .scrollable-table table {
+    width: 140%;
+    table-layout: fixed;
+  }
+
+  .scrollable-table th,
+  .scrollable-table td {
+    padding: 100x; /* Ajusta el padding según tus necesidades */
+    text-align: left;
+  }
+
+  .btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+</style>
+
+<div class="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Documento</th>
+        <th>Telefono</th>
+        <th>Correo</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+  </table>
+  <div class="scrollable-table">
+    <table class="table">
+      <tbody>
+        {% for list in listar_empleado %}
+        <tr>
+          <td>{{ list.nombre }}</td>
+          <td>{{ list.apellido }}</td>
+          <td>{{ list.documento }}</td>
+          <td>{{ list.telefono }}</td>
+          <td>{{ list.correo }}</td>
+          <td>{{ list.fecha }}</td>
+          <td>{{ list.id_estado.estado }}</td>
+          <td>
+            {% if list.id_empleado %}
+              <a href="{% url 'editarempleado' list.id_empleado %}">
+                <button type="button" class="btn btn-info">Actualizar</button>
+              </a>
+              <a href="{% url 'eliminaremple' list.id_empleado %}">
+                <button type="button" class="btn btn-danger">Eliminar</button>
+              </a>
+            {% else %}
+              <button type="button" class="btn btn-secondary" disabled>Actualizar</button>
+              <button type="button" class="btn btn-secondary" disabled>Eliminar</button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'agregaregistroemple' %}" method="post">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" name="nombre" id="nombre" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="apellido">Apellido</label>
+              <input type="text" class="form-control" name="apellido" id="apellido" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="documento">Documento</label>
+              <input type="number" class="form-control" name="documento" id="documento" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="telefono">Teléfono</label>
+              <input type="number" class="form-control" name="telefono" id="telefono" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="correo">Correo</label>
+              <input type="email" class="form-control" name="correo" id="correo" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="fecha">Fecha</label>
+              <input type="date" class="form-control" name="fecha" id="fecha" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="estado_select">Estado</label>
+              <select name="id_estado" id="estado_select" class="form-control" required>
+                <option value="">Asignar Estado</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    obtenerEstado();
+  });
+
+  function obtenerEstado() {
+    const urlEstado = "{% url 'obtenerestado' %}";
+    fetch(urlEstado)
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById('estado_select');
+        data.forEach(estado => {
+          const option = document.createElement('option');
+          option.value = estado.id_estado;  
+          option.textContent = estado.estado;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Hubo un problema con la solicitud Fetch:', error);
+      });
+  }
+</script>
+{% endblock %}
