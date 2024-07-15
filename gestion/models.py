@@ -27,23 +27,26 @@ class Estado(models.Model):
     class Meta:
         managed = False
         db_table = 'estado'
+        
+    def __str__(self):
+        return self.estado
 
 
 class Inventario(models.Model):
     id_producto = models.AutoField(primary_key=True)
     producto = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=50)
-    cantidad = models.IntegerField()
-    unidad_medida = models.CharField(max_length=45)
     categoria = models.CharField(max_length=45)
     fecha = models.DateField()
-    id_tipo_registro = models.ForeignKey('TipoRegistro', models.DO_NOTHING, db_column='id_tipo_registro')
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
-    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado', blank=True, null=True)
+    id_tipo_registro = models.ForeignKey('TipoRegistro', models.DO_NOTHING, db_column='id_tipo_registro')       
+    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado', blank=True, null=True)      
 
     class Meta:
         managed = False
         db_table = 'inventario'
+        
+    def __str__(self):
+        return self.producto
 
 
 class Labor(models.Model):
@@ -106,14 +109,25 @@ class Usuario(models.Model):
         db_table = 'usuario'
         
 class DatosFinca(models.Model):
-    id_configuracion = models.IntegerField(primary_key=True)
+    id_configuracion = models.AutoField(primary_key=True)
     nit_finca = models.IntegerField()
     nombre_finca = models.CharField(max_length=45)
     nombre_responsable = models.CharField(max_length=50)
     telefono_responsable = models.IntegerField()
     direccion = models.CharField(max_length=45)
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'datos_finca'
+        
+class StockInventario(models.Model):
+    id_stockinven = models.AutoField(primary_key=True)
+    cantidad = models.IntegerField()
+    unidad_medida = models.CharField(max_length=20)
+    id_producto = models.ForeignKey(Inventario, models.DO_NOTHING, db_column='id_producto')
+    id_tipo_registro = models.ForeignKey('TipoRegistro', models.DO_NOTHING, db_column='id_tipo_registro')
+    fecha = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'stock_inventario'

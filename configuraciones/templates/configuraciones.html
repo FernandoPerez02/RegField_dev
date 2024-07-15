@@ -1,0 +1,94 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Datos de la Finca</title>
+  </head>
+
+  <body>
+    <div class="Contenido">
+      <h3 class="tex">Información de la Finca</h3>
+
+       <!-- Modal -->
+       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>       
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        
+                    <form action="{% url 'agregarfinca' %}" id="formulario" method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="nit"
+                            name="nit_finca"
+                            placeholder="Nit"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="nm-finca"
+                            name="nombre_finca"
+                            placeholder="Nombre de la Finca"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="nm-rpble"
+                            name="nombre_responsable"
+                            placeholder="Nombre del Responsable"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="tel-rpble"
+                            name="telefono_responsable"
+                            placeholder="Telefono del Responsable"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="direc"
+                            name="direccion"
+                            placeholder="Dirección"
+                            />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>
+
+{% endblock %}

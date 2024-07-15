@@ -28,14 +28,19 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 #configuracion de los elementos estaticos 
+import os
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    'D:/DESARROLLO-REGFIELD/regfield/app_modul/static/aplicacion',
-    'D:/DESARROLLO-REGFIELD/regfield/gestion/static/app_gestion',    
-    ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'app_modul/static'),
+                    os.path.join(BASE_DIR, 'gestion/static'),
+                    os.path.join(BASE_DIR, 'inventario/static'),
+                    os.path.join(BASE_DIR, 'new_user/static')]
+
 # Application definition
 
 INSTALLED_APPS = [
+    'login',
+    'configuraciones',
+    'inventario',
     'gestion',
     'app_modul',
     'new_user',
@@ -61,7 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'regfield.urls'
 
-import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATES = [
