@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import LoginForm
 from gestion.models import Usuario
 
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

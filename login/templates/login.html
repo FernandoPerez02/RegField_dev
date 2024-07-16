@@ -31,14 +31,16 @@
                 <button type="submit">Iniciar Sesión</button>
             </form>
             {% if messages %}
-                {% for message in messages %}
+            <div class="exito" style="color: rgb(63, 188, 188);">
+              {% for message in messages %}
                     <p>{{ message }}</p>
                 {% endfor %}
+            </div>
             {% endif %}
                  
                 <span class="recu">
-                  <a href="#"
-                    >¿Olvido contraseña?
+                  <a href="{% url 'enviar' %}"
+                    >¿Olvido su contraseña?
                   </a>
                 </span>
 

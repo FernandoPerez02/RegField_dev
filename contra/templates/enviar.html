@@ -1,0 +1,63 @@
+{% extends 'base_contra.html' %}
+
+{% block title %}Enviar correo de restablecimiento{% endblock %}
+
+{% block content %}
+  <h1>Enviar correo de restablecimiento</h1>
+  <div class="form-container">
+    <form id="reset-form" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-custom">Enviar correo</button>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.getElementById('reset-form').onsubmit = function(event) {
+      var email = document.querySelector('input[name="email"]').value;
+      var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(email)) {
+        event.preventDefault();
+        Swal.fire('Error', 'Por favor, ingrese un correo electrónico válido', 'error');
+      }
+    };
+  </script>
+  <style>
+    .btn-custom {
+      background-color: #5a7346;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn-custom:hover {
+      background-color: #4a6138;
+    }
+
+    h1 {
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh;
+    }
+
+    form {
+      background: rgba(0, 0, 0, 0.960);
+      padding: 50px;
+      border-radius: 10px;
+      color: #ffffff;
+      width: 350px;
+      text-align: center;
+    }
+  </style>
+{% endblock %}
+
