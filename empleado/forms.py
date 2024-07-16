@@ -1,5 +1,5 @@
 from django import forms
-from .models import Empleado
+from gestion.models import Empleado
 
 class Empleadoform(forms.ModelForm):
     class Meta:

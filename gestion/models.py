@@ -37,8 +37,7 @@ class Inventario(models.Model):
     producto = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=50)
     categoria = models.CharField(max_length=45)
-    fecha = models.DateField()
-    id_tipo_registro = models.ForeignKey('TipoRegistro', models.DO_NOTHING, db_column='id_tipo_registro')       
+    fecha = models.DateField()      
     id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado', blank=True, null=True)      
 
     class Meta:
@@ -102,11 +101,28 @@ class Usuario(models.Model):
     gmail = models.CharField(max_length=50)
     contrasena = models.CharField(max_length=10)
     fecha_registro = models.DateTimeField(blank=True, null=True)
-    terminos_condiciones = models.IntegerField()
+    terminos_condiciones = models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        if not self.id_usuario:
+            max_id = Usuario.objects.aggregate(max_id=models.Max('id_usuario'))['max_id']
+            max_id_num = int(max_id.split('-')[-1]) if max_id else 0
+            new_id_num = str(max_id_num + 1).zfill(3)
+            
+            inicials = ''.join([word[0] for word in self.rol.split()]).upper()
+            
+            self.id_usuario = f"US-{inicials}-{new_id_num}"
+            
+        super().save(*args, **kwargs) 
+        
+    def __str__(self):
+        return self.usuario
 
     class Meta:
         managed = False
         db_table = 'usuario'
+        
+
         
 class DatosFinca(models.Model):
     id_configuracion = models.AutoField(primary_key=True)

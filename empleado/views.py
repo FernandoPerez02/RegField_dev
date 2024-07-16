@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from .forms import Empleadoform
-from . import models
+from gestion import models
 
 # Create your views here.
 
@@ -66,10 +66,6 @@ def agregaregistroemple(request):
 
   
     return redirect('empleado')
-        
-        
-    
-
     
 def eliminar(request, id_empleado):
     registro = get_object_or_404(models.Empleado, id_empleado=id_empleado)

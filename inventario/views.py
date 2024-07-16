@@ -14,8 +14,12 @@ def obtenerproducto(request):
     return JsonResponse(list(listproducto), safe=False)
 
 def inventario(request):
+    context = inventario_filter()
+    return render (request, 'inventario.html',{'context':context})
+
+def gestion_inventario(request):
     listinven = models.Inventario.objects.all()
-    return render (request, 'inventario.html',{'listinven': listinven})
+    return render(request, 'gestion_inventario.html', {'listinven': listinven})
 
 def agregarinventario(request):
     if request.method == 'POST':
@@ -23,7 +27,6 @@ def agregarinventario(request):
             descripcion = request.POST['descripcion']
             categoria = request.POST['categoria']
             fecha = request.POST['fecha']
-            id_tipo_registro = request.POST['id_tipo_registro']
             id_estado = request.POST['id_estado']
             
             data_inve = {
@@ -31,7 +34,6 @@ def agregarinventario(request):
                 'descripcion': descripcion,
                 'categoria': categoria,
                 'fecha': fecha,
-                'id_tipo_registro':id_tipo_registro,
                 'id_estado':id_estado
             }
             
@@ -96,7 +98,7 @@ def agregarstock(request):
 
 
 def editarstock(request, id_stockinven):
-    liststock = models.StockInventario.objects.all()
+    stocklist = models.StockInventario.objects.all()
     stockedit = get_object_or_404(models.StockInventario, id_stockinven=id_stockinven)
     
     data = {
@@ -110,8 +112,52 @@ def editarstock(request, id_stockinven):
             data['mensaje'] = 'Edición Exitosa'
         else:
             data['mensaje'] = 'Edición Fallida'
-    
-    return render(request, 'editarstock.html', {'data': data, 'liststock': liststock }) 
+              
+    return render(request, 'editarstock.html', {'data': data, 'stocklist':stocklist }) 
 
+""" Pruebas  """
+def inventario_list(request):
+    inventarios = models.Inventario.objects.all()
+    return render(request, 'inventario_list.html', {'inventarios': inventarios})
 
+def inventario_create(request):
+    if request.method == 'POST':
+        form = forms.InventarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = forms.InventarioForm()
+    return render(request, 'inventario_form.html', {'form': form})
 
+def inventario_filter():
+    inventarios = models.Inventario.objects.all()
+    producto_data = []
+
+    for inventario in inventarios:
+        # Obtener registros de entrada y salida
+        input_records = models.StockInventario.objects.filter(id_producto=inventario, id_tipo_registro__tipo_registro='Ingreso')
+        output_records = models.StockInventario.objects.filter(id_producto=inventario, id_tipo_registro__tipo_registro='Salida')
+
+        # Calcular las cantidades de entrada y salida
+        input_quantity = sum(record.cantidad for record in input_records)
+        output_quantity = sum(record.cantidad for record in output_records)
+
+        # Calcular la cantidad actual
+        current_quantity = input_quantity - output_quantity
+
+        producto_data.append({
+            'producto': inventario.producto,
+            'descripcion': inventario.descripcion,
+            'categoria': inventario.categoria,
+            'estado': inventario.id_estado,
+            'cantidad_actual': current_quantity,
+        })
+
+    context = {
+        'producto_data': producto_data,
+    }
+
+    return context

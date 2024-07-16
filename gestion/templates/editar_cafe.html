@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+  </head>
+  <body>
+    <div class="gestion_tbla">
+      <div class="opciones">
+        <a href="{% url 'gestioncafe' %}"><button type="button" class="btn btn-secondary">Regresar</button></a>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" 
+        data-bs-target="#edicionModal" data-id="1">Confirmar Edición</button>
+      </div>
+
+      <div class="table-container">
+        <div class="scrollable-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Empleado</th>
+                <th>Kilos</th>
+                <th>Tipo Registro</th>
+                <th>Fecha</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for list in listarecoleccion %}
+              <tr class="lista">
+                <td>{{list.id_empleado}}</td>
+                <td>{{list.peso}}</td>
+                <td>{{list.id_tipo_registro}}</td>
+                <td>{{list.fecha}}</td>
+                <td>
+                  <a href="{% url 'editarcafe' list.id_cafe %}">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" 
+                    data-bs-target="#edicionModal" id="btnEditar">Editar</button>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+               <!-- Modal de edision -->
+       <div class="modal fade" id="edicionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            </div>
+            <div class="modal-body">
+              <form id="formulario" method="post">
+                {% csrf_token %}
+                {{data.form}}
+            
+
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button type="submit" class="btn btn-primary">Guardar</button>
+              </form>
+            </div>
+            
+            </div>
+          </div>
+        </div>
+    </body>
+</html>
+{% endblock %}
