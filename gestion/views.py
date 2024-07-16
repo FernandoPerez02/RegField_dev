@@ -26,7 +26,7 @@ def editar(request, id_cafe):
     
     listar_recoleccion = models.ManejoCafe.objects.all()
     
-    return render(request, 'editar.html', {'data': data, 'listarecoleccion': listar_recoleccion})
+    return render(request, 'editar_cafe.html', {'data': data, 'listarecoleccion': listar_recoleccion})
 
 
 def obtener_empleados(request):
@@ -36,10 +36,6 @@ def obtener_empleados(request):
 def obtener_tiporegistro(request):
     tipo = models.TipoRegistro.objects.all().values('id_tipo_registro', 'tipo_registro')
     return JsonResponse(list(tipo), safe=False)
-
-def cafe(request):
-    listar_recoleccion = models.ManejoCafe.objects.all()
-    return render(request, 'manejo_cafe.html', {'listarecoleccion':listar_recoleccion})
 
 def agregaregistrocafe(request):
     if request.method == 'POST':
@@ -63,7 +59,7 @@ def agregaregistrocafe(request):
         
 def gestioncafe(request):
     listar_recoleccion = models.ManejoCafe.objects.all()
-    return render(request, 'Editarcafe.html', {'listarecoleccion':listar_recoleccion})
+    return render(request, 'Manejo_cafe.html', {'listarecoleccion':listar_recoleccion})
    
 def eliminar(request, id_cafe):
     registro = get_object_or_404(models.ManejoCafe, id_cafe=id_cafe)

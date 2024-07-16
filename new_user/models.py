@@ -3,7 +3,6 @@ from django.utils import timezone
 
 # Create your models here.
 class Usuario(models.Model):
-   
     usuario = models.CharField(max_length=15, unique=True)
     gmail = models.CharField(max_length=50)
     contrasena = models.CharField(max_length=10)

@@ -14,7 +14,7 @@ class FincaForm(forms.ModelForm):
 class InventarioForm(forms.ModelForm):
     class Meta:
         model = Inventario
-        fields = ['producto', 'descripcion', 'categoria', 'fecha', 'id_tipo_registro', 'id_estado']
+        fields = ['producto', 'descripcion', 'categoria', 'fecha', 'id_estado']
         
 class StockinvenForm(forms.ModelForm):
     class Meta:
@@ -25,3 +25,6 @@ class confiForm(forms.ModelForm):
     class Meta:
         model = DatosFinca
         fields = ['nit_finca', 'nombre_finca', 'nombre_responsable', 'telefono_responsable', 'direccion']
+        
+class InventarioFilterForm(forms.Form):
+    pass
