@@ -31,6 +31,7 @@ def post_form(request):
             form.save()
             return HttpResponse('Registro exitoso')
         else:
+            print(form.errors)
             return HttpResponse('Registro Fallido')
 
     
