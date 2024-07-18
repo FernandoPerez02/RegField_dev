@@ -17,14 +17,13 @@ def login_view(request):
                 # Almacena la información del usuario en la sesión
                 request.session['user_id'] = user.id_usuario
                 request.session['user_role'] = user.rol
+                request.session['user_name'] = user.usuario
                 return redirect('inicio')  # Redirige a la página de inicio o cualquier otra página
             except Usuario.DoesNotExist:
                 messages.error(request, 'Usuario o contraseña inválidos')
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
-
-from django.shortcuts import redirect
 
 
 

@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from gestion import forms
+from gestion import forms, models
 from django.http import HttpResponse
 
 # Create your views here.
 def config(request):
-    return render(request, 'configuraciones.html')
+    datosFinca = models.DatosFinca.objects.all()
+    return render(request, 'configuraciones.html', {'datosFinca':datosFinca})
 
 def agregarconfi(request):
     if request.method == 'POST':
@@ -26,8 +27,27 @@ def agregarconfi(request):
         form = forms.confiForm(form_data)
         if form.is_valid():
             form.save()
-            return HttpResponse('Fallo')
-        else:
-            return HttpResponse('fallo')
-            print(form.errors)  # Paso para depuración
     return redirect('config')
+
+def editarfinca(request, id_configuracion):
+    datosFinca = models.DatosFinca.objects.all()
+    regedit = get_object_or_404(models.DatosFinca, id_configuracion=id_configuracion)
+    
+    data = {
+        'form': forms.FincaForm(instance=regedit)
+    }
+    
+    if request.method == 'POST':
+        formulario = forms.FincaForm(request.POST, instance=regedit)    
+        if formulario.is_valid():
+            formulario.save()
+            data['mensaje'] = 'Edicion Exitosa'
+            
+        else:
+            data['mensaje'] = 'Edicion fallida'
+    return render(request, 'editarfinca.html', {'datosFinca': datosFinca, 'data': data})
+
+def eliminarfinca(request,id_configuracion):
+    regeditfinca = get_object_or_404(models.DatosFinca, id_configuracion=id_configuracion)
+    regeditfinca.delete()
+    return redirect('registrarfinca')

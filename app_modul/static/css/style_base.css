@@ -29,7 +29,7 @@ div.menu {
     flex-direction: column;
     justify-content: space-around;
     background: #5a7346;
-    width: 25vw;
+    width: 20vw;
     font-size: 25px;
         
   }
@@ -40,10 +40,11 @@ nav ul a {
     margin: 0px 50px 0px 0px;  
   }
 
-nav ul a h3{
+nav ul a h4{
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
-    font-size: 35px;
+    font-size: 20px;
     line-height: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -90,15 +91,7 @@ div.content_canbiante{
 
 }
 
-footer{
-    background: rgba(0, 0, 0, 0.973);
-    padding: 5px;
-    height: 8vh;
-  }
 
-img.red_social{
-    width: 40px;
-    margin-left: 5px;
-  }
+
 
 

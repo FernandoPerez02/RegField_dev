@@ -1,6 +1,30 @@
 {% extends 'base.html' %} 
 {% load static %} 
 {% block content %}
+
+<style>
+    .informacion {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background-color: rgba(20, 20, 32, 0.1);
+        align-items: center;
+
+    }
+
+    .imf_finca {
+        display: flex;
+        border: solid 0.5px;
+        width: 22vw;
+        border-radius: 20px;
+        padding: 8px;
+        list-style: none;
+    }
+
+    .option_config {
+        display: flex;
+        gap: 100px;
+    }
+</style>
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,11 +32,32 @@
   </head>
 
   <body>
-    <div class="Contenido">
-      <h3 class="tex">Información de la Finca</h3>
+    {% block titulo %}Información de la Finca {% endblock %}
+    <div class="option_config">
+        <div class="interaciones">
+            <ul>
+                <a href="{% url 'usuario' %}" >Registrar Usuario</a>
+                <a href="{% url 'inicio' %}">Cerrar Sesión</a>
+            </ul>
+        </div>
 
-       <!-- Modal -->
-       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>       
+      <div class="informacion">
+        {% for datos in datosFinca %}
+        <h5 class="imf_finca">Nit: {{datos.nit_finca}}</h5>
+        <h5 class="imf_finca">Finca: {{datos.nombre_finca}}</h5>
+        <h5 class="imf_finca">Responsable: {{datos.nombre_responsable}}</h5>
+        <h5 class="imf_finca">Contacto: {{datos.telefono_responsable}}</h5>
+        <h5 class="imf_finca">Dirección: {{datos.direccion}}</h5><br>
+        <div class="opciones">
+            <a href="#"><button class="btn btn-info">Actualizar</button></a>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" 
+                data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+       <!-- Modal -->       
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
@@ -85,9 +130,7 @@
             </div>
         </div>
     </div>
-      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-
   </body>
 </html>
 

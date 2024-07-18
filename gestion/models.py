@@ -55,7 +55,6 @@ class Labor(models.Model):
     fecha_labor = models.DateField()
     id_empleado = models.ForeignKey(Empleado, models.DO_NOTHING, db_column='id_empleado')
     id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario', blank=True, null=True)
-    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado', blank=True, null=True)
 
     class Meta:
         managed = False

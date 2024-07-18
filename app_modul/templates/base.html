@@ -31,19 +31,15 @@
         <div class="titulo">
           
             {% for finca in nameFinca %}
-            <h1 id="finca">
+            <h3 id="finca">
             {{finca.nombre_finca}}
-            </h1>
+            </h3>
             {% endfor %}
         </div>
 
-        <div class="usuario">
-          <img
-            src="https://img.icons8.com/fluency-systems-filled/48/user.png"
-            id="user_img"
-          />
+        <div class="usuario"> 
+            <h3 id="user_name">Bienvenido,{{ logged_in_user.username }}!</h3>
 
-          <h1 id="user_name">Usuario</h1>
         </div>
       </div>
     </header>
@@ -52,39 +48,46 @@
       <div class="menu">
         <nav>
           <ul>
-            <a href="{% url 'inicio' %}"><h3>Inicio</h3></a>
-            <a href="{% url 'empleado' %}"><h3>Empleados</h3></a>
-            <a href="{% url 'inventario' %}"><h3>Inventario</h3></a>
-            <a href="{% url 'gestioncafe' %}"><h3>Manejo Cafe</h3></a>
-            <a href="{% url 'labor' %}"><h3>Labor</h3></a>
-            <a href="{% url 'confi' %}"><h3>Datos Finca</h3></a>
+            <a href="{% url 'inicio' %}"><h4>Inicio</h4></a>
+            <a href="{% url 'empleado' %}"><h4>Empleados</h4></a>
+            <a href="{% url 'inventario' %}"><h4>Inventario</h4></a>
+            <a href="{% url 'gestioncafe' %}"><h4>Manejo Cafe</h4></a>
+            <a href="{% url 'labor' %}"><h4>Labor</h4></a>
+            <a href="{% url 'confi' %}"><h4>Datos Finca</h4></a>
           </ul>
         </nav>
       </div>
       <div class="contenido">
-        <div class="buscador">
-          <h3 class="texto">Filtrar por Fecha:</h3>
+<!--         {% block filtro %}
+          <div class="buscador">
+            <h3 class="texto">Filtrar por Fecha:</h3>
 
-          <div class="fechas">
-            <div>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Fecha Inicio"
-              />
-            </div>
+            <div class="fechas">
+              <div>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Fecha Inicio"
+                />
+              </div>
 
-            <div>
-              <input type="text" class="form-control" placeholder="Fecha Fin" />
-            </div>
+              <div>
+                <input type="text" class="form-control" placeholder="Fecha Fin" />
+              </div>
 
-            <div class="boton_search">
-              <a href="buscador.html" class="btn btn-primary" role="button">
-                Buscar</a
-              >
+              <div class="boton_search">
+                <a href="buscador.html" class="btn btn-primary" role="button">
+                  Buscar</a
+                >
+              </div>
             </div>
           </div>
-        </div>
+        {% endblock %} -->
+        
+          <div class="tiluos_vista">
+            <h2>{% block titulo %} {% endblock %}</h2>
+          </div>
+        
 
         <div class="content_canbiante">{% block content %} {% endblock %}</div>
       </div>
@@ -92,11 +95,6 @@
 
     <footer>
       <div class="pie_pagina">
-        <img
-          src="https://img.icons8.com/color/48/gmail-new.png"
-          class="red_social"
-          alt="gmail"
-        />
       </div>
     </footer>
 

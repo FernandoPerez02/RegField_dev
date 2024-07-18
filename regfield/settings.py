@@ -81,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_modul.context_processor.name_finca',
+                'app_modul.context_processor.user_context',
             ],
         },
     },
