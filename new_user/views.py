@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from . import forms
+from .functions import send_mail_google
 
 # Create your views here.
 
@@ -29,6 +30,8 @@ def post_form(request):
         
         if form.is_valid():
             form.save()
+            message_text = 'Bienvenido a Regfield.  Acabas de registrar un nuevo usuario en el aplicativo'
+            sent = send_mail_google(gmail, 'Registro Exitoso', message_text)
             return HttpResponse('Registro exitoso')
         else:
             print(form.errors)
