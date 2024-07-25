@@ -1,3 +1,5 @@
+#comando para instalar todas las extensiones que requiere el proyecto 
+# pip install -r requirements.txt
 django == 5.0.4
 pillow == 10.3.0
 django-admin-interface
@@ -19,3 +21,4 @@ tzdata == 2024.1
 update == 0.0.1
 uritemplate == 4.1.1
 urllib3 == 2.2.2
+mysqlclient == 2.2.4
