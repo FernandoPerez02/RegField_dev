@@ -1,0 +1,12 @@
+[33mcommit 8e612a40e804038cc0de7c14f07a9e19a7f61561[m[33m ([m[1;31morigin/test_code[m[33m)[m
+Merge: d45c1f9 d811f27
+Author: FernandoPerez02 <osorioperezluisfernando@gmail.com>
+Date:   Wed Jul 24 20:48:42 2024 -0500
+
+    Correccion
+
+[33mcommit d45c1f966f60064bbded0d018f1c8947354c1d13[m
+Author: FernandoPerez02 <osorioperezluisfernando@gmail.com>
+Date:   Fri Jul 19 08:29:04 2024 -0500
+
+    Integración del requiere para las extenciones del proyecto

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'labor',
     'empleado',
     'contra',
+    'usuarios',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

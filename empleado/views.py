@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import  JsonResponse
 from .forms import Empleadoform
 from gestion import models
-
+from django.contrib import messages
 # Create your views here.
 
 
@@ -38,6 +38,7 @@ def empleado(request):
 
 def agregaregistroemple(request):
     if request.method == 'POST':
+        # Procesar el formulario
         nombre = request.POST['nombre']
         apellido = request.POST['apellido']
         documento = request.POST['documento']
@@ -46,7 +47,6 @@ def agregaregistroemple(request):
         fecha = request.POST['fecha']
         id_estado = request.POST['id_estado']
 
-        
         estado = models.Estado.objects.get(id_estado=id_estado)
 
         form_data = {
@@ -62,9 +62,10 @@ def agregaregistroemple(request):
         form = Empleadoform(form_data)
         if form.is_valid():
             form.save()
-            return redirect('empleado')  
+            messages.success(request, 'Registro agregado con éxito')
+        else:
+            messages.error(request, 'Error al agregar registro')
 
-  
     return redirect('empleado')
     
 def eliminar(request, id_empleado):

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  </head>
+  <body>
+    <div class="gestion_tbla">
+      <div class="opciones">
+        <a href="{% url 'confi' %}"><button class="btn btn-secondary">Regresar</button></a>
+      </div>
+
+      <div class="table-container">
+        <div class="scrollable-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Rol</th>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Contraseña</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for list in listar_usuarios %}
+              <tr>
+                <td>{{ list.rol }}</td>
+                <td>{{ list.usuario }}</td>
+                <td>{{ list.gmail }}</td>
+                <td>{{ list.contrasena }}</td>
+                <td>
+                    <a href="{% url 'editarusuarios' list.id_usuario %}">
+                      <button type="button" class="btn btn-info">Actualizar</button>
+                    </a>
+                    <a href="javascript:void(0)" onclick="confirmarEliminacion('{{ list.id_usuario }}')">
+                      <button type="button" class="btn btn-danger">Eliminar</button>
+                    </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+      <script>
+        function confirmarEliminacion(id_usuario) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: '¿Seguro que deseas eliminar al usuario?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var url = "{% url 'eliminarusuarios' 123 %}".replace("123", id_usuario);
+      window.location.href = url;
+    }
+  });
+}
+      </script>
+    </div>
+
+{% endblock %}
