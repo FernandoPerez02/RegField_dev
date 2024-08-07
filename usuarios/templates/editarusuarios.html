@@ -14,7 +14,7 @@
   <body>
     <div class="gestion_tbla">
       <div class="opciones">
-        <a href="{% url 'labor' %}"><button type="button" class="btn btn-secondary">Regresar</button></a>
+        <a href="{% url 'usuarios' %}"><button class="btn btn-secondary">Regresar</button></a>
       </div>
 
       <div class="table-container">
@@ -22,24 +22,24 @@
           <table>
             <thead>
               <tr>
-                <th>Empleado</th>
-                <th>Labor</th>
-                <th>Lote</th>
-                <th>Fecha</th>
+                <th>Rol</th>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Contraseña</th>
                 <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
-              {% for list in listar_labor %}
-              <tr class="lista">
-                <td>{{ list.id_empleado.nombre }}</td>
-                <td>{{ list.descripcion }}</td>
-                <td>{{ list.lote }}</td>
-                <td>{{ list.fecha_labor }}</td>
+              {% for list in listar_usuarios %}
+              <tr>
+                <td>{{ list.rol }}</td>
+                <td>{{ list.usuario }}</td>
+                <td>{{ list.gmail }}</td>
+                <td>{{ list.contrasena }}</td>
                 <td>
-                  <a href="javascript:void(0)" onclick="confirmarEdicion('{{ list.id_labor }}')">
-                    <button type="button" class="btn btn-info">Editar</button>
-                  </a>
+                    <a href="javascript:void(0)" onclick="confirmarEdicion('{{ list.id_usuario }}')">
+                      <button type="button" class="btn btn-info">Editar</button>
+                    </a>
                 </td>
               </tr>
             {% endfor %}
@@ -48,8 +48,9 @@
         </div>
       </div>
     </div>
+
     <script>
-      function confirmarEdicion(id_labor) {
+      function confirmarEdicion(id_usuario) {
   Swal.fire({
     title: '¿Estás seguro?',
     text: '¿Seguro que deseas editar al usuario?',
@@ -65,28 +66,27 @@
   });
 }
     </script>
+
     <div class="modal fade" id="edicionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Editar registro</h5>
           </div>
           <div class="modal-body">
             <form id="formulario" method="post">
               {% csrf_token %}
-              {{data.form}}
-          
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Guardar</button>
+              {{ data.form }}
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
             </form>
-          </div>
-          
           </div>
         </div>
       </div>
     </div>
+
   </body>
 </html>
 {% endblock %}
