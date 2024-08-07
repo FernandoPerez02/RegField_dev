@@ -7,6 +7,14 @@
   <head>
     <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <style>
+      .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="gestion_tbla">
@@ -51,24 +59,23 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-      <script>
-        function confirmarEliminacion(id_labor) {
-  Swal.fire({
-    title: '¿Estás seguro?',
-    text: '¿Seguro que deseas eliminar al usuario?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'Cancelar'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      var url = "{% url 'eliminarlabor' 123 %}".replace("123", id_labor);
-      window.location.href = url;
-    }
-  });
-}
-      </script>
-    </div>
+    <script>
+      function confirmarEliminacion(id_labor) {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¿Seguro que deseas eliminar al usuario?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var url = "{% url 'eliminarlabor' 123 %}".replace("123", id_labor);
+            window.location.href = url;
+          }
+        });
+      }
+    </script>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -85,16 +92,19 @@
                 <div class="form-group col-md-6">
                   <label for="descripcion">Descripcion</label>
                   <input type="text" class="form-control" name="descripcion" id="descripcion" required>
+                  <div class="error-message"></div>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="lote">Lote</label>
                   <input type="number" class="form-control" name="lote" id="lote" required>
+                  <div class="error-message"></div>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="fecha_labor">Fecha</label>
                   <input type="date" class="form-control" name="fecha_labor" id="fecha_labor" required>
+                  <div class="error-message"></div>
                 </div>
                 <div class="mb-3">
                   <select
@@ -106,6 +116,7 @@
                       >
                         <option value="">Asignar Empleado</option>
                       </select>
+                      <div class="error-message"></div>
                       <input type="hidden" id="empleado" name="empleado" />
                 </div>
 
@@ -123,7 +134,66 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         obtenerEmpleado();
+
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, select');
+
+        inputs.forEach(input => {
+          input.addEventListener('focus', validateField);  // Validar al hacer foco en el campo
+          input.addEventListener('input', validateField);  // Validar en tiempo real mientras se escribe
+        });
+
+        form.addEventListener('submit', function(event) {
+          let valid = true;
+          inputs.forEach(input => {
+            if (!validateField({ target: input })) {
+              valid = false;
+            }
+          });
+          if (!valid) {
+            event.preventDefault();
+          }
+        });
       });
+
+      function validateField(event) {
+        const field = event.target;
+        const errorMessage = field.parentElement.querySelector('.error-message');
+        
+        let valid = true;
+        let message = '';
+
+        if (field.name === 'descripcion') {
+          if (!field.value.match(/^[A-Za-z\s]+$/)) {
+            valid = false;
+            message = 'Solo letras y espacios permitidos';
+          }
+        } else if (field.name === 'lote') {
+          if (!field.value.match(/^\d+$/)) {
+            valid = false;
+            message = 'Solo números permitidos';
+          }
+        } else if (field.name === 'fecha_labor') {
+          if (!field.value) {
+            valid = false;
+            message = 'Fecha requerida';
+          }
+        } else if (field.name === 'id_empleado') {
+          if (!field.value) {
+            valid = false;
+            message = 'Seleccione un empleado';
+          }
+        }
+
+        if (!valid) {
+          errorMessage.textContent = message;
+          errorMessage.style.display = 'block';
+        } else {
+          errorMessage.style.display = 'none';
+        }
+
+        return valid;
+      }
 
       function obtenerEmpleado() {
         const urlEmpleado = "{% url 'obtenerempleado' %}";
@@ -135,24 +205,6 @@
               const option = document.createElement('option');
               option.value = empleado.id_empleado;  
               option.textContent = empleado.nombre;
-              select.appendChild(option);
-            });
-          })
-          .catch(error => {
-            console.error('Hubo un problema con la solicitud Fetch:', error);
-          });
-      }
-
-      function obtenerEstado() {
-        const urlEstado = "{% url 'obtenerestado' %}";
-        fetch(urlEstado)
-          .then(response => response.json())
-          .then(data => {
-            const select = document.getElementById('estado_select');
-            data.forEach(estado => {
-              const option = document.createElement('option');
-              option.value = estado.id_estado;
-              option.textContent = estado.estado;
               select.appendChild(option);
             });
           })
