@@ -22,7 +22,7 @@ def editarlabor(request, id_labor):
     
     listar_labor = models.Labor.objects.all()
     
-    return render(request, 'editarlabor.html', {'data': data, 'listar_labor': listar_labor})
+    return render(request, 'editar.html', {'data': data, 'listar_labor': listar_labor})
 
 # Obtener Estados
 def obtenerestado(request):
