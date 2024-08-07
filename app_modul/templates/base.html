@@ -39,7 +39,6 @@
 
         <div class="usuario"> 
             <h3 id="user_name">Bienvenido,{{ logged_in_user.username }}!</h3>
-
         </div>
       </div>
     </header>
@@ -54,12 +53,11 @@
             <a href="{% url 'gestioncafe' %}"><h4>Manejo Cafe</h4></a>
             <a href="{% url 'labor' %}"><h4>Labor</h4></a>
             <a href="{% url 'confi' %}"><h4>Datos Finca</h4></a>
-
           </ul>
         </nav>
       </div>
       <div class="contenido">
-<!--         {% block filtro %}
+        {% block filtro %}
           <div class="buscador">
             <h3 class="texto">Filtrar por Fecha:</h3>
 
@@ -83,7 +81,7 @@
               </div>
             </div>
           </div>
-        {% endblock %} -->
+        {% endblock %}
         
           <div class="tiluos_vista">
             <h2>{% block titulo %} {% endblock %}</h2>
