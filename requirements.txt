@@ -1,0 +1,24 @@
+#comando para instalar todas las extensiones que requiere el proyecto 
+# pip install -r requirements.txt
+django == 5.0.4
+pillow == 10.3.0
+django-admin-interface
+asgiref == 3.8.1
+google-api-core == 2.19.1
+google-api-python-client == 2.136.0
+google-auth == 2.31.0
+google-auth-httplib2 == 0.2.0
+google-auth-oauthlib == 1.2.1
+googleapis-common-protos == 1.63.2
+httplib2 == 0.22.0
+keyboard == 0.13.5
+oauthlib == 3.2.2
+requests == 2.32.3
+requests-oauthlib == 2.0.0
+sqlparse == 0.5.0
+style == 1.1.0
+tzdata == 2024.1
+update == 0.0.1
+uritemplate == 4.1.1
+urllib3 == 2.2.2
+mysqlclient == 2.2.4
