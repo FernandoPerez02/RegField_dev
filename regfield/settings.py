@@ -107,7 +107,7 @@ DATABASES = {
         'USER': 'luisperez',
         'PASSWORD': 'regfield2024',
         'HOST': 'localhost',
-        'PORT': 3306
+        'PORT': 3306,
     }
 }
 
