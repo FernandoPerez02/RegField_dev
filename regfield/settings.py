@@ -106,7 +106,7 @@ DATABASES = {
         'NAME': 'proyect_regfield',
         'USER': 'luisperez',
         'PASSWORD': 'regfield2024',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': 3306,
     }
 }
