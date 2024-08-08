@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +16,33 @@
     </style>
   </head>
   <body>
+    {% block filtro %}
+    <div class="buscador">
+      <h3 class="texto">Filtrar por Fecha:</h3>
+      <form action="{% url 'inicio' %}" method="get">
+        <div class="fechas">
+          <div>
+            <input
+              type="date"
+              name="fecha_inicio"
+              class="form-control"
+              placeholder="Fecha Inicio"
+            />
+          </div>
+
+          <div>
+            <input type="date" name="fecha_fin" class="form-control" placeholder="Fecha Fin" />
+          </div>
+
+          <div class="boton_search">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endblock %}
+  {% block content %}
+
     <div class="gestion_tbla">
       <div class="opciones">
         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" 
