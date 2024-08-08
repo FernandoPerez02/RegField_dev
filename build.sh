@@ -1,4 +1,4 @@
-a!/usr/brn/env bash
+#!/usr/bin/env bash
 
 set -0 errexit
 
