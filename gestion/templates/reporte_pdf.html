@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Kilos</th>
+                <th>Tipo Registro</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro.empleado }}</td>
+                <td>{{ registro.kilos }}</td>
+                <td>{{ registro.tipo_registro }}</td>
+                <td>{{ registro.fecha }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
