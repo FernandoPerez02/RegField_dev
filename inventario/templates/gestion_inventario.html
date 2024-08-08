@@ -5,6 +5,14 @@
 <html>
   <head>
     <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+    <style>
+      .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="gestion_tbla">
@@ -57,91 +65,130 @@
         </div>
     </div>
 
-           <!-- Modal -->       
+    <!-- Modal -->       
        
-       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-           <div class="modal-content">
-             <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-             </div>
-             <div class="modal-body">
-               <form action="{% url 'agregarproducto' %}"
-               id="formulario"
-               method="post">
-               {% csrf_token %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'agregarproducto' %}" id="formulario" method="post">
+              {% csrf_token %}
                
-               <div class="mb-3">
-                <label for="message-text" class="col-form-label"></label>Producto:</label>
-                <input
-                      type="text"
-                      class="form-control"
-                      name="producto"
-                      id="nombrepro"
-                    />
+              <div class="mb-3">
+                <label for="producto" class="col-form-label">Producto:</label>
+                <input type="text" class="form-control" name="producto" id="nombrepro" />
+                <div class="error-message"></div>
               </div>
 
               <div class="mb-3">
-                <label for="message-text" class="col-form-label"></label>Descripcion:</label>
-                <input
-                      type="text"
-                      class="form-control"
-                      name="descripcion"
-                      id="descrip"
-                    />
+                <label for="descripcion" class="col-form-label">Descripción:</label>
+                <input type="text" class="form-control" name="descripcion" id="descrip" />
+                <div class="error-message"></div>
               </div>
 
               <div class="mb-3">
-                <label for="message-text" class="col-form-label"></label>Categoria:</label>
-                <input
-                      type="text"
-                      class="form-control"
-                      name="categoria"
-                      id="categ"
-                    />
+                <label for="categoria" class="col-form-label">Categoría:</label>
+                <input type="text" class="form-control" name="categoria" id="categ" />
+                <div class="error-message"></div>
               </div>
 
-                <div class="mb-3">
-                  <label for="message-text" class="col-form-label">Fecha:</label>
-                  <input
-                        type="date"
-                        class="form-control"
-                        name="fecha"
-                        id="fecha"
-                      />
-                </div>
+              <div class="mb-3">
+                <label for="fecha" class="col-form-label">Fecha:</label>
+                <input type="date" class="form-control" name="fecha" id="fecha" />
+                <div class="error-message"></div>
+              </div>
 
-                <div class="mb-3">
-                    <select
-                          name="id_estado"
-                          id="producto_select"
-                          class="form-control"
-                          data-url="{% url 'obtenerestado' %}"
-                          onchange="asignarIdestado()"
-                        >
-                          <option value="">Asignar Estado</option>
-                        </select>
-                        <input
-                          type="hidden"
-                          name="id_estado"
-                          id="estadoid"
-                        />
-                  </div>
+              <div class="mb-3">
+                <label for="id_estado" class="col-form-label">Estado:</label>
+                <select name="id_estado" id="producto_select" class="form-control" data-url="{% url 'obtenerestado' %}" onchange="asignarIdestado()">
+                  <option value="">Asignar Estado</option>
+                </select>
+                <input type="hidden" name="id_estado" id="estadoid" />
+                <div class="error-message"></div>
+              </div>
 
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button href="{% url 'agregarproducto' %}" type="submit" class="btn btn-primary">Agregar</button>
-               </form>
-             </div>
-             
-             </div>
-           </div>
-         </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Agregar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('#formulario');
+        const inputs = form.querySelectorAll('input, select');
 
-    <script src="../static/js/obtenedatos.js"></script>
+        inputs.forEach(input => {
+          input.addEventListener('focus', validateField);  // Validar al hacer foco en el campo
+          input.addEventListener('input', validateField);  // Validar en tiempo real mientras se escribe
+        });
+
+        form.addEventListener('submit', function(event) {
+          let valid = true;
+          inputs.forEach(input => {
+            if (!validateField({ target: input })) {
+              valid = false;
+            }
+          });
+          if (!valid) {
+            event.preventDefault();
+          }
+        });
+      });
+
+      function validateField(event) {
+        const field = event.target;
+        const errorMessage = field.parentElement.querySelector('.error-message');
+        
+        let valid = true;
+        let message = '';
+
+        if (field.name === 'producto') {
+          if (!field.value.match(/^[A-Za-z\s]+$/)) {
+            valid = false;
+            message = 'Solo letras y espacios permitidos';
+          }
+        } else if (field.name === 'descripcion') {
+          if (field.value.length < 5) {
+            valid = false;
+            message = 'La descripción debe tener al menos 5 caracteres';
+          }
+        } else if (field.name === 'categoria') {
+          if (!field.value.match(/^[A-Za-z\s]+$/)) {
+            valid = false;
+            message = 'Solo letras y espacios permitidos';
+          }
+        } else if (field.name === 'fecha') {
+          if (!field.value) {
+            valid = false;
+            message = 'Fecha requerida';
+          }
+        } else if (field.name === 'id_estado') {
+          if (!field.value) {
+            valid = false;
+            message = 'Seleccione un estado';
+          }
+        }
+
+        if (!valid) {
+          errorMessage.textContent = message;
+          errorMessage.style.display = 'block';
+        } else {
+          errorMessage.style.display = 'none';
+        }
+
+        return valid;
+      }
+    </script>
   </body>
 </html>
 {% endblock %}

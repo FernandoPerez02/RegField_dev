@@ -8,7 +8,9 @@
         grid-template-columns: 1fr 1fr;
         background-color: rgba(20, 20, 32, 0.1);
         align-items: center;
-
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .imf_finca {
@@ -18,121 +20,179 @@
         border-radius: 20px;
         padding: 8px;
         list-style: none;
+        margin-bottom: 10px;
     }
 
     .option_config {
         display: flex;
         gap: 100px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        opacity: 0.8;
     }
 </style>
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Datos de la Finca</title>
-  </head>
 
-  <body>
-    {% block titulo %}Información de la Finca {% endblock %}
-    <div class="option_config">
-        <div class="interaciones">
-            <ul>
-                <a href="{% url 'usuario' %}" >Registrar Usuario</a>
-                <a href="{% url 'inicio' %}">Cerrar Sesión</a>
-                <a href="{% url 'usuarios' %}">Usuarios</a>
-            </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Información de la Finca</h1>
+            <div class="informacion">
+                {% for datos in datosFinca %}
+                <h5 class="imf_finca">Nit: {{datos.nit_finca}}</h5>
+                <h5 class="imf_finca">Finca: {{datos.nombre_finca}}</h5>
+                <h5 class="imf_finca">Responsable: {{datos.nombre_responsable}}</h5>
+                <h5 class="imf_finca">Contacto: {{datos.telefono_responsable}}</h5>
+                <h5 class="imf_finca">Dirección: {{datos.direccion}}</h5>
+                <br>
+                <div class="opciones">
+                    <!-- Botón de edición que abre el modal correspondiente -->
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" 
+                    data-bs-target="#editModal{{ datos.id_configuracion }}">Editar</button>
+                    <a href="{% url 'eliminarfinca' datos.id_configuracion %}" class="btn btn-danger">Eliminar</a>
+                </div>
+
+                <!-- Modal para Editar -->
+                <div class="modal fade" id="editModal{{ datos.id_configuracion }}" tabindex="-1" aria-labelledby="editModalLabel{{ datos.id_configuracion }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{ datos.id_configuracion }}">Editar Finca</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'editarfinca' datos.id_configuracion %}" method="post">
+                                    {% csrf_token %}
+                                    
+                                    <div class="mb-3">
+                                        <label for="nit_finca" class="form-label">Nit:</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        id="nit_finca"
+                                        name="nit_finca"
+                                        value="{{ datos.nit_finca }}"
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="nombre_finca" class="form-label">Nombre de la Finca:</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        id="nombre_finca"
+                                        name="nombre_finca"
+                                        value="{{ datos.nombre_finca }}"
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="nombre_responsable" class="form-label">Nombre del Responsable:</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        id="nombre_responsable"
+                                        name="nombre_responsable"
+                                        value="{{ datos.nombre_responsable }}"
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="telefono_responsable" class="form-label">Telefono del Responsable:</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        id="telefono_responsable"
+                                        name="telefono_responsable"
+                                        value="{{ datos.telefono_responsable }}"
+                                        />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="direccion" class="form-label">Dirección:</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        id="direccion"
+                                        name="direccion"
+                                        value="{{ datos.direccion }}"
+                                        />
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin Modal Editar -->
+                {% endfor %}
+            </div>
         </div>
-
-      <div class="informacion">
-        {% for datos in datosFinca %}
-        <h5 class="imf_finca">Nit: {{datos.nit_finca}}</h5>
-        <h5 class="imf_finca">Finca: {{datos.nombre_finca}}</h5>
-        <h5 class="imf_finca">Responsable: {{datos.nombre_responsable}}</h5>
-        <h5 class="imf_finca">Contacto: {{datos.telefono_responsable}}</h5>
-        <h5 class="imf_finca">Dirección: {{datos.direccion}}</h5><br>
-        <div class="opciones">
-            <a href="#"><button class="btn btn-info">Actualizar</button></a>
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" 
-                data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
-          </div>
-        {% endfor %}
-      </div>
     </div>
 
-       <!-- Modal -->       
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+    <!-- Opciones y Modal Agregar -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="option_config">
+                <a href="{% url 'usuario' %}" class="btn btn-secondary">Registrar Usuario</a>
+                <a href="{% url 'usuarios' %}" class="btn btn-info">Usuarios</a>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar Finca</button>
+                <a href="{% url 'inicio' %}" class="btn btn-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva Finca</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                        
-                    <form action="{% url 'agregarfinca' %}" id="formulario" method="post">
+                    <form action="{% url 'agregarfinca' %}" method="post">
                         {% csrf_token %}
-
+                        <!-- Campos para agregar finca -->
                         <div class="mb-3">
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="nit"
-                            name="nit_finca"
-                            placeholder="Nit"
-                            />
+                            <input type="text" class="form-control" name="nit_finca" placeholder="Nit" />
                         </div>
-
                         <div class="mb-3">
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="nm-finca"
-                            name="nombre_finca"
-                            placeholder="Nombre de la Finca"
-                            />
+                            <input type="text" class="form-control" name="nombre_finca" placeholder="Nombre de la Finca" />
                         </div>
-
                         <div class="mb-3">
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="nm-rpble"
-                            name="nombre_responsable"
-                            placeholder="Nombre del Responsable"
-                            />
+                            <input type="text" class="form-control" name="nombre_responsable" placeholder="Nombre del Responsable" />
                         </div>
-
                         <div class="mb-3">
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="tel-rpble"
-                            name="telefono_responsable"
-                            placeholder="Telefono del Responsable"
-                            />
+                            <input type="text" class="form-control" name="telefono_responsable" placeholder="Telefono del Responsable" />
                         </div>
-
                         <div class="mb-3">
-                            <input
-                            type="text"
-                            class="form-control"
-                            id="direc"
-                            name="direccion"
-                            placeholder="Dirección"
-                            />
+                            <input type="text" class="form-control" name="direccion" placeholder="Dirección" />
                         </div>
-
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary">Agregar</button>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Fin Modal Agregar -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
+</div>
 
 {% endblock %}
