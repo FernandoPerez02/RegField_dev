@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block content %}
 
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 <head>
   <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -39,6 +41,66 @@
   <div class="gestion_tbla">
     <div class="opciones">
       <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
+=======
+  <head>
+    <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <style>
+      .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gestion_tbla">
+      <div class="opciones">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" 
+        data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
+      </div>
+
+      <div class="table-container">
+        <div class="scrollable-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Documento</th>
+                <th>Telefono</th>
+                <th>Correo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for list in listar_empleado %}
+              <tr>
+                <td>{{ list.nombre }}</td>
+                <td>{{ list.apellido }}</td>
+                <td>{{ list.documento }}</td>
+                <td>{{ list.telefono }}</td>
+                <td>{{ list.correo }}</td>
+                <td>{{ list.fecha }}</td>
+                <td>{{ list.id_estado.estado }}</td>
+                <td>
+                    <a href="{% url 'editarempleado' list.id_empleado %}">
+                      <button type="button" class="btn btn-info">Actualizar</button>
+                    </a>
+                    <a href="javascript:void(0)" onclick="confirmarEliminacion('{{ list.id_empleado}}')">
+                      <button type="button" class="btn btn-danger">Eliminar</button>
+                    </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+>>>>>>> 85e8c9571332f1c64ea7586a447cd06da713641a
     </div>
 
     <div class="table-container">
@@ -257,3 +319,7 @@
   {% endblock %}
 </body>
 </html>
+<<<<<<< HEAD
+=======
+{% endblock %}
+>>>>>>> 85e8c9571332f1c64ea7586a447cd06da713641a
