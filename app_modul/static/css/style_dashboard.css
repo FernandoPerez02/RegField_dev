@@ -9,3 +9,12 @@ div.grafica-container {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
     border: 1px solid #dee2e6; /* Borde */
 }
+
+div.buscador{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 70vw;
+    padding: 10px;
+    gap: 10px;
+}

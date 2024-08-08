@@ -48,11 +48,11 @@
                 <span id="usuario_sugerencia" class="mensaje_requisito"></span>
               </div>
 
-<!--               <div class="documento">
+              <div class="documento">
                 <label for="identificacion">Documento</label>
                 <input type="number" name="documento" id="identificacion" class="form-control" placeholder="1043948967">
                 <span id="doc_error" class="mensaje_error"></span>
-              </div> -->
+              </div>
         
               <div class="grup_correo">
                 <label for="gmail" class="form-label">Correo Eletronico</label>
@@ -92,8 +92,8 @@
                 </div>
           
                 <div class="btn_registrar">
-                  <a href=""><button type="submit" class="btn btn-primary" id="btn_register"
-                    data-bs-toggle="modal" data-bs-target="#Modalpermisos">Registrar</button></a>
+                  <button type="submit" class="btn btn-primary" id="btn_register">Registrar</button>
+                  <div id="alertError" class="mensaje_alerta"></div>
                 </div>
               </div>
             </div>
@@ -103,5 +103,6 @@
         
           </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
 </body>
 </html>

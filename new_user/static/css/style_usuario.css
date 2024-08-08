@@ -25,6 +25,7 @@ div.formulario {
 div.contenido {
   background-color: rgba(96, 95, 114, 0.1);
   border-radius: 20px;
+  max-width: 50vw;
   gap: 10px;
 }
 
@@ -37,7 +38,7 @@ div.registro {
       'grup_doc' 'grup_correo'
       'contrasena' 'contrasena'
       ;
-  height: max(70vh 40vh);
+  max-height:(70vh);
   gap: 10px;
 }
 

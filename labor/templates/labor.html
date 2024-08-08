@@ -2,226 +2,217 @@
 {% load static %}
 {% block content %}
 
-<style>
-  button {
-    border: 1px solid black;
-    border-radius: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background-color: rgb(34, 5, 61);
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-
-  .modal-footer {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .table-container {
-    width: 100%;
-    height: 50vh;
-  }
-
-  .table-container .table {
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  .scrollable-table {
-    max-height: 40vh; /* Ajusta esta altura según tus necesidades */
-    overflow-y: auto;
-  }
-
-  .scrollable-table table {
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  .scrollable-table th,
-  .scrollable-table td {
-    padding: 8px; /* Ajusta el padding según tus necesidades */
-    text-align: left;
-  }
-
-  .table-container .table {
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  .btn-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-  }
-
-  .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-
-  .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-  }
-
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-</style>
-
-<div class="table-container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Descripcion</th>
-        <th>Lote</th>
-        <th>Fecha</th>
-        <th>Empleado</th>
-        <th>Estado</th>
-        <th>Opciones</th>
-      </tr>
-    </thead>
-  </table>
-  <div class="scrollable-table">
-    <table class="table">
-      <tbody>
-        {% for list in listar_labor %}
-        <tr class="lista">
-          <td>{{ list.descripcion }}</td>
-          <td>{{ list.lote }}</td>
-          <td>{{ list.fecha_labor }}</td>
-          <td>{{ list.id_empleado.nombre }}</td>
-          <td>{{ list.id_estado.estado }}</td>
-          <td>
-            {% if list.id_labor %}
-              <a href="{% url 'editarlabor' list.id_labor %}">
-                <button type="button" class="btn btn-info">Actualizar</button>
-              </a>
-              <form action="{% url 'eliminarlabor' list.id_labor %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-              </form>
-            {% else %}
-              <button type="button" class="btn btn-secondary" disabled>Actualizar</button>
-              <button type="button" class="btn btn-secondary" disabled>Eliminar</button>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <style>
+      .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gestion_tbla">
+      <div class="opciones">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" 
+        data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
       </div>
-      <div class="modal-body">
-        <form action="{% url 'agregaregistrolabor' %}" method="post">
-          {% csrf_token %}
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="descripcion">Descripcion</label>
-              <input type="text" class="form-control" name="descripcion" id="descripcion" required>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="lote">Lote</label>
-              <input type="number" class="form-control" name="lote" id="lote" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="fecha_labor">Fecha</label>
-              <input type="date" class="form-control" name="fecha_labor" id="fecha_labor" required>
-            </div>
-            <div class="mb-3">
-              <select
-                    name="id_empleado"
-                    id="empleado_select"
-                    class="form-control"
-                    data-url="{% url 'obtenerempleado' %}"
-                    onchange="obtenerEmpleado()"
-                  >
-                    <option value="">Asignar Empleado</option>
-                  </select>
-                  <input type="hidden" id="empleado" name="empleado" />
-             </div>
-             <div class="mb-3">
-              <select
-                    name="id_estado"
-                    id="estado_select"
-                    class="form-control"
-                    data-url="{% url 'obtenerestado' %}"
-                    onchange="obtenerEstado()"
-                  >
-                    <option value="">Asignar Estado</option>
-                  </select>
-                  <input type="hidden" id="estado" name="estado" />
-             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Agregar</button>
-          </div>
-        </form>
+
+      <div class="table-container">
+        <div class="scrollable-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Empleado</th>
+                <th>Labor</th>
+                <th>Lote</th>
+                <th>Fecha</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for list in listar_labor %}
+              <tr class="lista">
+                <td>{{ list.id_empleado.nombre }}</td>
+                <td>{{ list.descripcion }}</td>
+                <td>{{ list.lote }}</td>
+                <td>{{ list.fecha_labor }}</td>
+                
+                <td>
+                    <a href="{% url 'editarlabor' list.id_labor %}">
+                      <button type="button" class="btn btn-info">Actualizar</button>
+                    </a>
+                    <a href="javascript:void(0)" onclick="confirmarEliminacion('{{ list.id_labor }}')">
+                      <button type="button" class="btn btn-danger">Eliminar</button>
+                    </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    obtenerEmpleado();
-    obtenerEstado();
-  });
-
-  function obtenerEmpleado() {
-    const urlEmpleado = "{% url 'obtenerempleado' %}";
-    fetch(urlEmpleado)
-      .then(response => response.json())
-      .then(data => {
-        const select = document.getElementById('empleado_select');
-        data.forEach(empleado => {
-          const option = document.createElement('option');
-          option.value = empleado.id_empleado;  
-          option.textContent = empleado.nombre;
-          select.appendChild(option);
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <script>
+      function confirmarEliminacion(id_labor) {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¿Seguro que deseas eliminar al usuario?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var url = "{% url 'eliminarlabor' 123 %}".replace("123", id_labor);
+            window.location.href = url;
+          }
         });
-      })
-      .catch(error => {
-        console.error('Hubo un problema con la solicitud Fetch:', error);
-      });
-  }
+      }
+    </script>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'agregaregistrolabor' %}" method="post">
+              {% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="descripcion">Descripcion</label>
+                  <input type="text" class="form-control" name="descripcion" id="descripcion" required>
+                  <div class="error-message"></div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="lote">Lote</label>
+                  <input type="number" class="form-control" name="lote" id="lote" required>
+                  <div class="error-message"></div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="fecha_labor">Fecha</label>
+                  <input type="date" class="form-control" name="fecha_labor" id="fecha_labor" required>
+                  <div class="error-message"></div>
+                </div>
+                <div class="mb-3">
+                  <select
+                        name="id_empleado"
+                        id="empleado_select"
+                        class="form-control"
+                        data-url="{% url 'obtenerempleado' %}"
+                        onchange="obtenerEmpleado()"
+                      >
+                        <option value="">Asignar Empleado</option>
+                      </select>
+                      <div class="error-message"></div>
+                      <input type="hidden" id="empleado" name="empleado" />
+                </div>
 
-  function obtenerEstado() {
-    const urlEstado = "{% url 'obtenerestado' %}";
-    fetch(urlEstado)
-      .then(response => response.json())
-      .then(data => {
-        const select = document.getElementById('estado_select');
-        data.forEach(estado => {
-          const option = document.createElement('option');
-          option.value = estado.id_estado;
-          option.textContent = estado.estado;
-          select.appendChild(option);
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Agregar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        obtenerEmpleado();
+
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, select');
+
+        inputs.forEach(input => {
+          input.addEventListener('focus', validateField);  // Validar al hacer foco en el campo
+          input.addEventListener('input', validateField);  // Validar en tiempo real mientras se escribe
         });
-      })
-      .catch(error => {
-        console.error('Hubo un problema con la solicitud Fetch:', error);
-      });
-  }
-</script>
 
+        form.addEventListener('submit', function(event) {
+          let valid = true;
+          inputs.forEach(input => {
+            if (!validateField({ target: input })) {
+              valid = false;
+            }
+          });
+          if (!valid) {
+            event.preventDefault();
+          }
+        });
+      });
+
+      function validateField(event) {
+        const field = event.target;
+        const errorMessage = field.parentElement.querySelector('.error-message');
+        
+        let valid = true;
+        let message = '';
+
+        if (field.name === 'descripcion') {
+          if (!field.value.match(/^[A-Za-z\s]+$/)) {
+            valid = false;
+            message = 'Solo letras y espacios permitidos';
+          }
+        } else if (field.name === 'lote') {
+          if (!field.value.match(/^\d+$/)) {
+            valid = false;
+            message = 'Solo números permitidos';
+          }
+        } else if (field.name === 'fecha_labor') {
+          if (!field.value) {
+            valid = false;
+            message = 'Fecha requerida';
+          }
+        } else if (field.name === 'id_empleado') {
+          if (!field.value) {
+            valid = false;
+            message = 'Seleccione un empleado';
+          }
+        }
+
+        if (!valid) {
+          errorMessage.textContent = message;
+          errorMessage.style.display = 'block';
+        } else {
+          errorMessage.style.display = 'none';
+        }
+
+        return valid;
+      }
+
+      function obtenerEmpleado() {
+        const urlEmpleado = "{% url 'obtenerempleado' %}";
+        fetch(urlEmpleado)
+          .then(response => response.json())
+          .then(data => {
+            const select = document.getElementById('empleado_select');
+            data.forEach(empleado => {
+              const option = document.createElement('option');
+              option.value = empleado.id_empleado;  
+              option.textContent = empleado.nombre;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => {
+            console.error('Hubo un problema con la solicitud Fetch:', error);
+          });
+      }
+    </script>
+  </body>
+</html>
 {% endblock %}

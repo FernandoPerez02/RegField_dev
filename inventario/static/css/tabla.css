@@ -24,3 +24,20 @@
     padding: 8px; /* Ajusta el padding según tus necesidades */
     text-align: center;
   }
+
+  div.buscador{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 70vw;
+    padding: 10px;
+    gap: 10px;
+}
+
+div.fechas{
+    display: flex;
+    gap: 5px;
+}
+h3.texto{
+    margin-bottom: 10px;
+}
