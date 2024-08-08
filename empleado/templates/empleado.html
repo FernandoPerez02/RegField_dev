@@ -3,269 +3,257 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-    <style>
-      .error-message {
-        color: red;
-        font-size: 0.9em;
-        margin-top: 5px;
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    {% block filtro %}
-    <div class="buscador">
-      <h3 class="texto">Filtrar por Fecha:</h3>
-      <form action="{% url 'inicio' %}" method="get">
-        <div class="fechas">
-          <div>
-            <input
-              type="date"
-              name="fecha_inicio"
-              class="form-control"
-              placeholder="Fecha Inicio"
-            />
-          </div>
-
-          <div>
-            <input type="date" name="fecha_fin" class="form-control" placeholder="Fecha Fin" />
-          </div>
-
-          <div class="boton_search">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-          </div>
+<head>
+  <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  <style>
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  {% block filtro %}
+  <div class="buscador">
+    <h3 class="texto">Filtrar por Fecha:</h3>
+    <form action="{% url 'inicio' %}" method="get">
+      <div class="fechas">
+        <div>
+          <input type="date" name="fecha_inicio" class="form-control" placeholder="Fecha Inicio" />
         </div>
-      </form>
-    </div>
+        <div>
+          <input type="date" name="fecha_fin" class="form-control" placeholder="Fecha Fin" />
+        </div>
+        <div class="boton_search">
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+      </div>
+    </form>
+  </div>
   {% endblock %}
+
   {% block content %}
-
-    <div class="gestion_tbla">
-      <div class="opciones">
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" 
-        data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
-      </div>
-
-      <div class="table-container">
-        <div class="scrollable-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Documento</th>
-                <th>Telefono</th>
-                <th>Correo</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Opciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for list in listar_empleado %}
-              <tr>
-                <td>{{ list.nombre }}</td>
-                <td>{{ list.apellido }}</td>
-                <td>{{ list.documento }}</td>
-                <td>{{ list.telefono }}</td>
-                <td>{{ list.correo }}</td>
-                <td>{{ list.fecha }}</td>
-                <td>{{ list.id_estado.estado }}</td>
-                <td>
-                    <a href="{% url 'editarempleado' list.id_empleado %}">
-                      <button type="button" class="btn btn-info">Actualizar</button>
-                    </a>
-                    <a href="javascript:void(0)" onclick="confirmarEliminacion('{{ list.id_empleado}}')">
-                      <button type="button" class="btn btn-danger">Eliminar</button>
-                    </a>
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <div class="gestion_tbla">
+    <div class="opciones">
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-    <script>
-      function confirmarEliminacion(id_empleado) {
-        Swal.fire({
-          title: '¿Estás seguro?',
-          text: '¿Seguro que deseas eliminar al usuario?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Sí, eliminar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            var url = "{% url 'eliminaremple' 123 %}".replace("123", id_empleado);
-            window.location.href = url;
-          }
-        });
-      }
+    <div class="table-container">
+      <div class="scrollable-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Documento</th>
+              <th>Telefono</th>
+              <th>Correo</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for list in listar_empleado %}
+            <tr>
+              <td>{{ list.nombre }}</td>
+              <td>{{ list.apellido }}</td>
+              <td>{{ list.documento }}</td>
+              <td>{{ list.telefono }}</td>
+              <td>{{ list.correo }}</td>
+              <td>{{ list.fecha }}</td>
+              <td>{{ list.id_estado.estado }}</td>
+              <td>
+                <a href="{% url 'editarempleado' list.id_empleado %}">
+                  <button type="button" class="btn btn-info">Actualizar</button>
+                </a>
+                <a href="javascript:void(0)" onclick="confirmarEliminacion('{{ list.id_empleado }}')">
+                  <button type="button" class="btn btn-danger">Eliminar</button>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-      document.addEventListener('DOMContentLoaded', function() {
-        obtenerEstado();
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+  <script>
+    function confirmarEliminacion(id_empleado) {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Seguro que deseas eliminar al usuario?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var url = "{% url 'eliminaremple' 123 %}".replace("123", id_empleado);
+          window.location.href = url;
+        }
+      });
+    }
 
-        const form = document.querySelector('form');
-        const inputs = form.querySelectorAll('input, select');
+    document.addEventListener('DOMContentLoaded', function() {
+      obtenerEstado();
 
-        inputs.forEach(input => {
-          input.addEventListener('focus', validateField);  // Validar al hacer foco en el campo
-          input.addEventListener('input', validateField);  // Validar en tiempo real mientras se escribe
-        });
+      const form = document.querySelector('form');
+      const inputs = form.querySelectorAll('input, select');
 
-        form.addEventListener('submit', function(event) {
-          let valid = true;
-          inputs.forEach(input => {
-            if (!validateField({ target: input })) {
-              valid = false;
-            }
-          });
-          if (!valid) {
-            event.preventDefault();
-          }
-        });
+      inputs.forEach(input => {
+        input.addEventListener('focus', validateField);  // Validar al hacer foco en el campo
+        input.addEventListener('input', validateField);  // Validar en tiempo real mientras se escribe
       });
 
-      function validateField(event) {
-        const field = event.target;
-        const errorMessage = field.parentElement.querySelector('.error-message');
-        
+      form.addEventListener('submit', function(event) {
         let valid = true;
-        let message = '';
-
-        if (field.name === 'nombre' || field.name === 'apellido') {
-          if (!field.value.match(/^[A-Za-z\s]+$/)) {
+        inputs.forEach(input => {
+          if (!validateField({ target: input })) {
             valid = false;
-            message = 'Solo letras y espacios permitidos';
           }
-        } else if (field.name === 'documento' || field.name === 'telefono') {
-          if (!field.value.match(/^\d+$/)) {
-            valid = false;
-            message = 'Solo números permitidos';
-          }
-        } else if (field.name === 'correo') {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(field.value)) {
-            valid = false;
-            message = 'Correo inválido';
-          }
-        } else if (field.name === 'fecha') {
-          if (!field.value) {
-            valid = false;
-            message = 'Fecha requerida';
-          }
-        } else if (field.name === 'id_estado') {
-          if (!field.value) {
-            valid = false;
-            message = 'Seleccione un estado';
-          }
-        }
-
+        });
         if (!valid) {
-          errorMessage.textContent = message;
-          errorMessage.style.display = 'block';
-        } else {
-          errorMessage.style.display = 'none';
+          event.preventDefault();
         }
+      });
+    });
 
-        return valid;
+    function validateField(event) {
+      const field = event.target;
+      const errorMessage = field.parentElement.querySelector('.error-message');
+
+      let valid = true;
+      let message = '';
+
+      if (field.name === 'nombre' || field.name === 'apellido') {
+        if (!field.value.match(/^[A-Za-z\s]+$/)) {
+          valid = false;
+          message = 'Solo letras y espacios permitidos';
+        }
+      } else if (field.name === 'documento' || field.name === 'telefono') {
+        if (!field.value.match(/^\d+$/)) {
+          valid = false;
+          message = 'Solo números permitidos';
+        }
+      } else if (field.name === 'correo') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(field.value)) {
+          valid = false;
+          message = 'Correo inválido';
+        }
+      } else if (field.name === 'fecha') {
+        if (!field.value) {
+          valid = false;
+          message = 'Fecha requerida';
+        }
+      } else if (field.name === 'id_estado') {
+        if (!field.value) {
+          valid = false;
+          message = 'Seleccione un estado';
+        }
       }
 
-      function obtenerEstado() {
-        const urlEstado = "{% url 'obtenerestado' %}";
-        fetch(urlEstado)
-          .then(response => response.json())
-          .then(data => {
-            const select = document.getElementById('estado_select');
-            data.forEach(estado => {
-              const option = document.createElement('option');
-              option.value = estado.id_estado;  
-              option.textContent = estado.estado;
-              select.appendChild(option);
-            });
-          })
-          .catch(error => {
-            console.error('Hubo un problema con la solicitud Fetch:', error);
+      if (!valid) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+      }
+
+      return valid;
+    }
+
+    function obtenerEstado() {
+      const urlEstado = "{% url 'obtenerestado' %}";
+      fetch(urlEstado)
+        .then(response => response.json())
+        .then(data => {
+          const select = document.getElementById('estado_select');
+          data.forEach(estado => {
+            const option = document.createElement('option');
+            option.value = estado.id_estado;  
+            option.textContent = estado.estado;
+            select.appendChild(option);
           });
-      }
-    </script>
+        })
+        .catch(error => {
+          console.error('Hubo un problema con la solicitud Fetch:', error);
+        });
+    }
+  </script>
 
-    <!-- Modal -->
+  <!-- Modal -->
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form action="{% url 'agregaregistroemple' %}" method="post">
-              {% csrf_token %}
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="nombre">Nombre</label>
-                  <input type="text" class="form-control" name="nombre" id="nombre" required>
-                  <div class="error-message"></div>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="apellido">Apellido</label>
-                  <input type="text" class="form-control" name="apellido" id="apellido" required>
-                  <div class="error-message"></div>
-                </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'agregaregistroemple' %}" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="nombre" required>
+                <div class="error-message"></div>
               </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="documento">Documento</label>
-                  <input type="number" class="form-control" name="documento" id="documento" required>
-                  <div class="error-message"></div>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="telefono">Teléfono</label>
-                  <input type="number" class="form-control" name="telefono" id="telefono" required>
-                  <div class="error-message"></div>
-                </div>
+              <div class="form-group col-md-6">
+                <label for="apellido">Apellido</label>
+                <input type="text" class="form-control" name="apellido" id="apellido" required>
+                <div class="error-message"></div>
               </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="correo">Correo</label>
-                  <input type="email" class="form-control" name="correo" id="correo" required>
-                  <div class="error-message"></div>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="fecha">Fecha</label>
-                  <input type="date" class="form-control" name="fecha" id="fecha" required>
-                  <div class="error-message"></div>
-                </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="documento">Documento</label>
+                <input type="number" class="form-control" name="documento" id="documento" required>
+                <div class="error-message"></div>
               </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="estado_select">Estado</label>
-                  <select name="id_estado" id="estado_select" class="form-control" required>
-                    <option value="">Asignar Estado</option>
-                  </select>
-                  <div class="error-message"></div>
-                </div>
+              <div class="form-group col-md-6">
+                <label for="telefono">Teléfono</label>
+                <input type="number" class="form-control" name="telefono" id="telefono" required>
+                <div class="error-message"></div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="correo">Correo</label>
+                <input type="email" class="form-control" name="correo" id="correo" required>
+                <div class="error-message"></div>
               </div>
-            </form>
-          </div>
+              <div class="form-group col-md-6">
+                <label for="fecha">Fecha</label>
+                <input type="date" class="form-control" name="fecha" id="fecha" required>
+                <div class="error-message"></div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="id_estado">Estado</label>
+                <select class="form-control" name="id_estado" id="estado_select" required></select>
+                <div class="error-message"></div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+  {% endblock %}
+</body>
 </html>
-{% endblock %}
-
-
