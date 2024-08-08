@@ -27,7 +27,7 @@ def agregarconfi(request):
         form = forms.confiForm(form_data)
         if form.is_valid():
             form.save()
-    return redirect('config')
+    return redirect('confi')
 
 def editarfinca(request, id_configuracion):
     datosFinca = models.DatosFinca.objects.all()
@@ -50,4 +50,4 @@ def editarfinca(request, id_configuracion):
 def eliminarfinca(request,id_configuracion):
     regeditfinca = get_object_or_404(models.DatosFinca, id_configuracion=id_configuracion)
     regeditfinca.delete()
-    return redirect('registrarfinca')
+    return redirect('confi')
