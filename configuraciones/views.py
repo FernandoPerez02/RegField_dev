@@ -45,7 +45,7 @@ def editarfinca(request, id_configuracion):
             
         else:
             data['mensaje'] = 'Edicion fallida'
-    return render(request, 'editarfinca.html', {'datosFinca': datosFinca, 'data': data})
+    return render(request, 'configuraciones.html', {'datosFinca': datosFinca, 'data': data})
 
 def eliminarfinca(request,id_configuracion):
     regeditfinca = get_object_or_404(models.DatosFinca, id_configuracion=id_configuracion)
