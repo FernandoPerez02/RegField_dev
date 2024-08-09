@@ -32,7 +32,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
+        padding: 15px;
         background: linear-gradient(to right, mistyrose, transparent, mistyrose), url("{% static 'media/hola.jpeg' %}");
         background-size: cover; /* Asegura que la imagen cubra el área */
         background-position: center; /* Centra la imagen de fondo */
@@ -95,6 +95,7 @@
       .contenido {
         padding: 30px;
         text-align: center; /* Centra el texto dentro del contenedor */
+        max-height: 80vh;
       }
 
       .titulos_vista h2 {
@@ -113,7 +114,7 @@
 
       /* Pie de página */
       .pie_pagina {
-        background-color: #0d2f17;
+        background: linear-gradient(20deg, #0d2f17, rgb(69, 121, 80), #0d2f17);
         padding: 20px; /* Aumenta el padding para más espacio */
         margin-top: 40px; /* Separa el pie de página del contenido */
         text-align: center;

@@ -43,6 +43,17 @@
     .modal-dialog {
         max-width: 800px;
     }
+
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .form-control.error {
+        border-color: red;
+    }
 </style>
 
 <div class="container">
@@ -58,7 +69,6 @@
                 <div class="imf_finca">Dirección: {{ datos.direccion }}</div>
                 <br>
                 <div class="opciones">
-                    <!-- Botón de edición que abre el modal correspondiente -->
                     <button type="button" class="btn btn-info" onclick="confirmarEdicion('{{ datos.id_configuracion }}')">Editar</button>
                     <button type="button" class="btn btn-danger" onclick="confirmarEliminacion('{{ datos.id_configuracion }}')">Eliminar</button>
                 </div>
@@ -168,23 +178,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'agregarfinca' %}" method="post">
+                    <form id="agregarFincaForm" action="{% url 'agregarfinca' %}" method="post">
                         {% csrf_token %}
                         <!-- Campos para agregar finca -->
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="nit_finca" placeholder="Nit" />
+                            <label for="nit_finca_add" class="form-label">Nit:</label>
+                            <input type="text" class="form-control" name="nit_finca" id="nit_finca_add" placeholder="Nit" required>
+                            <div class="error-message" id="error-nit_finca_add"></div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="nombre_finca" placeholder="Nombre de la Finca" />
+                            <label for="nombre_finca_add" class="form-label">Nombre de la Finca:</label>
+                            <input type="text" class="form-control" name="nombre_finca" id="nombre_finca_add" placeholder="Nombre de la Finca" required>
+                            <div class="error-message" id="error-nombre_finca_add"></div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="nombre_responsable" placeholder="Nombre del Responsable" />
+                            <label for="nombre_responsable_add" class="form-label">Nombre del Responsable:</label>
+                            <input type="text" class="form-control" name="nombre_responsable" id="nombre_responsable_add" placeholder="Nombre del Responsable" required>
+                            <div class="error-message" id="error-nombre_responsable_add"></div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="telefono_responsable" placeholder="Telefono del Responsable" />
+                            <label for="telefono_responsable_add" class="form-label">Telefono del Responsable:</label>
+                            <input type="text" class="form-control" name="telefono_responsable" id="telefono_responsable_add" placeholder="Telefono del Responsable" required>
+                            <div class="error-message" id="error-telefono_responsable_add"></div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="direccion" placeholder="Dirección" />
+                            <label for="direccion_add" class="form-label">Dirección:</label>
+                            <input type="text" class="form-control" name="direccion" id="direccion_add" placeholder="Dirección" required>
+                            <div class="error-message" id="error-direccion_add"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -196,69 +216,160 @@
         </div>
     </div>
     <!-- Fin Modal Agregar -->
+</div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
+ <!-- Scripts -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.all.min.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var addFincaButton = document.getElementById('addFincaButton');
-            var hayFincas = addFincaButton.getAttribute('data-hay-fincas') === 'true';
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         var addFincaButton = document.getElementById('addFincaButton');
+         var hayFincas = addFincaButton.getAttribute('data-hay-fincas') === 'true';
 
-            addFincaButton.addEventListener('click', function() {
-                if (hayFincas) {
-                    // Muestra la alerta de SweetAlert
-                    Swal.fire({
-                        title: 'No se puede agregar más fincas',
-                        text: 'Ya existe una finca registrada. No se puede agregar otra.',
-                        icon: 'info',
-                        confirmButtonText: 'Aceptar'
-                    });
+         addFincaButton.addEventListener('click', function() {
+             if (hayFincas) {
+                 // Muestra la alerta de SweetAlert
+                 Swal.fire({
+                     title: 'No se puede agregar más fincas',
+                     text: 'Ya existe una finca registrada. No se puede agregar otra.',
+                     icon: 'info',
+                     confirmButtonText: 'Aceptar'
+                 });
+             } else {
+                 // Abre el modal para agregar una nueva finca
+                 var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                 modal.show();
+             }
+         });
+     });
+
+     function confirmarEdicion(id_configuracion) {
+         Swal.fire({
+             title: '¿Estás seguro?',
+             text: '¿Seguro que deseas editar la finca?',
+             icon: 'warning',
+             showCancelButton: true,
+             confirmButtonText: 'Sí, editar',
+             cancelButtonText: 'Cancelar'
+         }).then((result) => {
+             if (result.isConfirmed) {
+                 // Mostrar la ventana modal para editar la finca
+                 $('#editModal' + id_configuracion).modal('show');
+             }
+         });
+     }
+
+     function confirmarEliminacion(id_configuracion) {
+         Swal.fire({
+             title: '¿Estás seguro?',
+             text: '¿Seguro que deseas eliminar la finca?',
+             icon: 'warning',
+             showCancelButton: true,
+             confirmButtonText: 'Sí, eliminar',
+             cancelButtonText: 'Cancelar'
+         }).then((result) => {
+             if (result.isConfirmed) {
+                 // Cambiar la URL a la correcta con el ID
+                 var eliminarUrl = "{% url 'eliminarfinca' 'id_configuracion' %}".replace('id_configuracion', id_configuracion);
+                 window.location.href = eliminarUrl;
+             }
+         });
+     }
+ </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('addFincaButton').addEventListener('click', function () {
+            let hayFincas = this.getAttribute('data-hay-fincas') === 'true';
+            if (!hayFincas) {
+                let addModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                addModal.show();
+            }
+        });
+
+        // Validación del formulario de agregar finca
+        const agregarFincaForm = document.getElementById('agregarFincaForm');
+        const campos = [
+            {
+                id: 'nit_finca_add',
+                errorId: 'error-nit_finca_add',
+                errorMessage: 'El Nit de la finca es obligatorio y debe ser un número válido.',
+                validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
+            },
+            {
+                id: 'nombre_finca_add',
+                errorId: 'error-nombre_finca_add',
+                errorMessage: 'El nombre de la finca es obligatorio.',
+                validate: (value) => value.trim() !== ''  // No vacío
+            },
+            {
+                id: 'nombre_responsable_add',
+                errorId: 'error-nombre_responsable_add',
+                errorMessage: 'El nombre del responsable es obligatorio.',
+                validate: (value) => value.trim() !== ''  // No vacío
+            },
+            {
+                id: 'telefono_responsable_add',
+                errorId: 'error-telefono_responsable_add',
+                errorMessage: 'El teléfono del responsable es obligatorio y debe ser un número válido.',
+                validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
+            },
+            {
+                id: 'direccion_add',
+                errorId: 'error-direccion_add',
+                errorMessage: 'La dirección de la finca es obligatoria.',
+                validate: (value) => value.trim() !== ''  // No vacío
+            }
+        ];
+
+        campos.forEach(campo => {
+            document.getElementById(campo.id).addEventListener('focus', function () {
+                const errorMessage = document.getElementById(campo.errorId);
+                if (!this.value || !campo.validate(this.value)) {
+                    errorMessage.innerText = campo.errorMessage;
+                    errorMessage.style.display = 'block';
+                    this.classList.add('error');
+                }
+            });
+
+            document.getElementById(campo.id).addEventListener('blur', function () {
+                const errorMessage = document.getElementById(campo.errorId);
+                if (!this.value || !campo.validate(this.value)) {
+                    errorMessage.innerText = campo.errorMessage;
+                    errorMessage.style.display = 'block';
+                    this.classList.add('error');
                 } else {
-                    // Abre el modal para agregar una nueva finca
-                    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                    modal.show();
+                    errorMessage.innerText = '';
+                    errorMessage.style.display = 'none';
+                    this.classList.remove('error');
                 }
             });
         });
 
-        function confirmarEdicion(id_configuracion) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: '¿Seguro que deseas editar la finca?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, editar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Mostrar la ventana modal para editar la finca
-                    $('#editModal' + id_configuracion).modal('show');
-                }
-            });
-        }
+        agregarFincaForm.addEventListener('submit', function (e) {
+            let isValid = true;
 
-        function confirmarEliminacion(id_configuracion) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: '¿Seguro que deseas eliminar la finca?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Cambiar la URL a la correcta con el ID
-                    var eliminarUrl = "{% url 'eliminarfinca' 'id_configuracion' %}".replace('id_configuracion', id_configuracion);
-                    window.location.href = eliminarUrl;
+            campos.forEach(campo => {
+                const inputElement = document.getElementById(campo.id);
+                if (!inputElement.value || !campo.validate(inputElement.value)) {
+                    document.getElementById(campo.errorId).innerText = campo.errorMessage;
+                    document.getElementById(campo.errorId).style.display = 'block';
+                    inputElement.classList.add('error');
+                    isValid = false;
                 }
             });
-        }
-    </script>
+
+            if (!isValid) {
+                e.preventDefault();  // Detener el envío si alguna validación falla
+            }
+        });
+    });
+</script>
 
 {% endblock %}
+
 
 
 
