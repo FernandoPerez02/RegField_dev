@@ -292,18 +292,43 @@
         // Validación del formulario de agregar finca
         const agregarFincaForm = document.getElementById('agregarFincaForm');
         const campos = [
-            { id: 'nit_finca_add', errorId: 'error-nit_finca_add' },
-            { id: 'nombre_finca_add', errorId: 'error-nombre_finca_add' },
-            { id: 'nombre_responsable_add', errorId: 'error-nombre_responsable_add' },
-            { id: 'telefono_responsable_add', errorId: 'error-telefono_responsable_add' },
-            { id: 'direccion_add', errorId: 'error-direccion_add' },
+            {
+                id: 'nit_finca_add',
+                errorId: 'error-nit_finca_add',
+                errorMessage: 'El Nit de la finca es obligatorio y debe ser un número válido.',
+                validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
+            },
+            {
+                id: 'nombre_finca_add',
+                errorId: 'error-nombre_finca_add',
+                errorMessage: 'El nombre de la finca es obligatorio.',
+                validate: (value) => value.trim() !== ''  // No vacío
+            },
+            {
+                id: 'nombre_responsable_add',
+                errorId: 'error-nombre_responsable_add',
+                errorMessage: 'El nombre del responsable es obligatorio.',
+                validate: (value) => value.trim() !== ''  // No vacío
+            },
+            {
+                id: 'telefono_responsable_add',
+                errorId: 'error-telefono_responsable_add',
+                errorMessage: 'El teléfono del responsable es obligatorio y debe ser un número válido.',
+                validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
+            },
+            {
+                id: 'direccion_add',
+                errorId: 'error-direccion_add',
+                errorMessage: 'La dirección de la finca es obligatoria.',
+                validate: (value) => value.trim() !== ''  // No vacío
+            }
         ];
 
         campos.forEach(campo => {
             document.getElementById(campo.id).addEventListener('focus', function () {
                 const errorMessage = document.getElementById(campo.errorId);
-                if (!this.value) {
-                    errorMessage.innerText = 'Este campo es obligatorio.';
+                if (!this.value || !campo.validate(this.value)) {
+                    errorMessage.innerText = campo.errorMessage;
                     errorMessage.style.display = 'block';
                     this.classList.add('error');
                 }
@@ -311,8 +336,8 @@
 
             document.getElementById(campo.id).addEventListener('blur', function () {
                 const errorMessage = document.getElementById(campo.errorId);
-                if (!this.value) {
-                    errorMessage.innerText = 'Este campo es obligatorio.';
+                if (!this.value || !campo.validate(this.value)) {
+                    errorMessage.innerText = campo.errorMessage;
                     errorMessage.style.display = 'block';
                     this.classList.add('error');
                 } else {
@@ -327,16 +352,17 @@
             let isValid = true;
 
             campos.forEach(campo => {
-                if (!document.getElementById(campo.id).value) {
-                    document.getElementById(campo.errorId).innerText = 'Este campo es obligatorio.';
+                const inputElement = document.getElementById(campo.id);
+                if (!inputElement.value || !campo.validate(inputElement.value)) {
+                    document.getElementById(campo.errorId).innerText = campo.errorMessage;
                     document.getElementById(campo.errorId).style.display = 'block';
-                    document.getElementById(campo.id).classList.add('error');
+                    inputElement.classList.add('error');
                     isValid = false;
                 }
             });
 
             if (!isValid) {
-                e.preventDefault();
+                e.preventDefault();  // Detener el envío si alguna validación falla
             }
         });
     });
