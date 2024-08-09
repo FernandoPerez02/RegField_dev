@@ -96,6 +96,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'regfield.wsgi.application'
 
+from decouple import config
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -103,10 +104,10 @@ WSGI_APPLICATION = 'regfield.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'proyect_regfield',
-        'USER': 'luisperez',
-        'PASSWORD': 'luis02',
-        'HOST': 'localhost',
+        'NAME': config('MYSQL_DATABASE'),
+        'USER': config('MYSQL_USER'),
+        'PASSWORD': config('MYSQL_PASSWORD'),
+        'HOST': config('MYSQL_HOST'),
         'PORT': 3306,
     }
 }
