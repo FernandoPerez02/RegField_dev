@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from . import forms
 from .functions import send_mail_google
@@ -36,19 +35,3 @@ def post_form(request):
         else:
             print(form.errors)
             return redirect('usuario')
-
-    
-
-
-""" def addRegistro(request):
-    if request.method == 'POST':
-        form = UsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()  # Guarda el formulario si es válido
-            return HttpResponse('Registro exitoso')  # Puedes cambiar esto por una redirección a otra URL o mostrar un mensaje diferente
-        else:
-            return render(request, 'tu_template.html', {'form': form})  # Renderiza el formulario con errores si no es válido
-    else:
-        form = UsuarioForm()  # Crea una instancia del formulario para mostrarlo en GET
-
-    return render(request, 'tu_template.html', {'form': form}) """
