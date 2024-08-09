@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from .forms import Manejocafeform
 from . import models
-from django.db.models import Sum
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from io import BytesIO
 
 
 # Create your views here.
@@ -67,113 +69,19 @@ def eliminar(request, id_cafe):
     registro.delete()
     return redirect('gestioncafe')
 
-
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from django.core.exceptions import ValidationError
-from django.utils.dateparse import parse_date
-from django.db.models import Sum
-from xhtml2pdf import pisa
-import io
-from . import models
-
-def validar_fecha(fecha_str):
-    """Valida que la fecha esté en formato YYYY-MM-DD y devuelve la fecha en formato datetime.date."""
-    try:
-        fecha = parse_date(fecha_str)
-        if fecha is None:
-            raise ValidationError('La fecha debe estar en formato YYYY-MM-DD.')
-        return fecha
-    except ValueError:
-        raise ValidationError('La fecha debe estar en formato YYYY-MM-DD.')
-
-def render_to_pdf(template_src, context_dict):
-    """Convierte una plantilla HTML a un archivo PDF."""
-    template = render_to_string(template_src, context_dict)
-    result = io.BytesIO()
-    pdf = pisa.CreatePDF(io.BytesIO(template.encode("UTF-8")), dest=result)
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)  # Carga la plantilla HTML.
+    html = template.render(context_dict)  # Renderiza la plantilla con el contexto proporcionado.
+    result = BytesIO()  # Crea un objeto BytesIO para manejar los datos del PDF en memoria.
+    pdf = pisa.CreatePDF(BytesIO(html.encode('utf-8')), dest=result)  # Convierte el HTML a PDF.
     if not pdf.err:
-        return result.getvalue()
-    return None
-
-def descargar_pdf(request):
-    fecha_inicio_str = request.GET.get('fecha_inicio')
-    fecha_fin_str = request.GET.get('fecha_fin')
-    agrupacion = request.GET.get('agrupacion')
-    tipo_registro = request.GET.get('tipo_registro')
-    
-    try:
-        fecha_inicio = validar_fecha(fecha_inicio_str)
-        fecha_fin = validar_fecha(fecha_fin_str)
-    except ValidationError as e:
-        return HttpResponse(f"Error: {e}", status=400)
-
-    # Filtrar registros por el rango de fechas
-    registros = models.ManejoCafe.objects.filter(
-        fecha__range=[fecha_inicio, fecha_fin],
-        tipo_registro=tipo_registro
-    )
-
-    # Agrupación de datos
-    if agrupacion == 'empleado':
-        registros = registros.values('empleado').annotate(total_kilos=Sum('kilos'))
-    else:
-        registros = registros
-
-    # Convertir fechas a formato YYYY-MM-DD
-    registros_formateados = []
-    for registro in registros:
-        fecha_formateada = registro.fecha.strftime('%Y-%m-%d') if hasattr(registro, 'fecha') else None
-        registro_dict = {
-            **registro,
-            'fecha': fecha_formateada,
-        }
-        registros_formateados.append(registro_dict)
-    
-    context = {
-        'registros': registros_formateados,
-    }
-    
-    pdf = render_to_pdf('reporte_pdf.html', context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        return response
-    return HttpResponse("Error generating PDF")
+        return HttpResponse(result.getvalue(), content_type='application/pdf')  # Devuelve el PDF como respuesta HTTP.
+    return None  # Si ocurre un error en la conversión, devuelve None.
 
 
-
-import pandas as pd
-from django.http import HttpResponse
-
-
-def descargar_excel(request):
-    fecha_inicio = request.GET.get('fecha_inicio')
-    fecha_fin = request.GET.get('fecha_fin')
-    agrupacion = request.GET.get('agrupacion')
-    tipo_registro = request.GET.get('tipo_registro')
-    
-    registros = models.ManejoCafe.objects.filter(
-        fecha__range=[fecha_inicio, fecha_fin],
-        tipo_registro=tipo_registro
-    )
-
-    # Agrupación de datos (ajusta esto según tus necesidades)
-    if agrupacion == 'empleado':
-        registros = registros.values('empleado').annotate(total_kilos=Sum('kilos'))
-
-    df = pd.DataFrame(list(registros))
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="report.xlsx"'
-    df.to_excel(response, index=False)
-    return response
-
-
-
-
-            
-
-
-
-        
-    
+def download_pdf(request):
+    # Obtén los datos de la base de datos
+    registros = models.ManejoCafe.objects.all()  # Obtiene todos los registros del modelo. Ajusta según tu consulta.
+    context = {'data': registros}  # Crea un contexto con los datos obtenidos.
+    pdf = render_to_pdf('cafe_pdf.html', context)  # Llama a render_to_pdf para generar el PDF.
+    return pdf  # Devuelve el PDF generado como respuesta.

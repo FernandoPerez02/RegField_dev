@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from gestion import forms, models
 from django.http import JsonResponse, HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from io import BytesIO
 
 
 # Create your views here.
@@ -161,3 +164,20 @@ def inventario_filter():
     }
 
     return context
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)  # Carga la plantilla HTML.
+    html = template.render(context_dict)  # Renderiza la plantilla con el contexto proporcionado.
+    result = BytesIO()  # Crea un objeto BytesIO para manejar los datos del PDF en memoria.
+    pdf = pisa.CreatePDF(BytesIO(html.encode('utf-8')), dest=result)  # Convierte el HTML a PDF.
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')  # Devuelve el PDF como respuesta HTTP.
+    return None  # Si ocurre un error en la conversión, devuelve None.
+
+
+def download_pdf(request):
+    # Obtén los datos de la base de datos
+    registros = models.Inventario.objects.all()  # Obtiene todos los registros del modelo. Ajusta según tu consulta.
+    context = {'data': registros}  # Crea un contexto con los datos obtenidos.
+    pdf = render_to_pdf('inventario_pdf.html', context)  # Llama a render_to_pdf para generar el PDF.
+    return pdf  # Devuelve el PDF generado como respuesta.

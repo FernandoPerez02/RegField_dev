@@ -21,23 +21,10 @@
       <div class="opciones">
         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" 
         data-bs-target="#exampleModal" data-bs-whatever="@mdo">Agregar</button>
-
-        <!-- Botones para descargar reportes -->
-        <form method="get" action="{% url 'descargar_excel' %}" style="display: inline;">
-          <input type="hidden" name="fecha_inicio" value="{{ request.GET.fecha_inicio }}">
-          <input type="hidden" name="fecha_fin" value="{{ request.GET.fecha_fin }}">
-          <input type="hidden" name="agrupacion" value="{{ request.GET.agrupacion }}">
-          <input type="hidden" name="tipo_registro" value="{{ request.GET.tipo_registro }}">
-          <button type="submit" class="btn btn-success">Descargar Excel</button>
         </form>
-
-        <form method="get" action="{% url 'descargar_pdf' %}" style="display: inline;">
-          <input type="hidden" name="fecha_inicio" value="{{ request.GET.fecha_inicio }}">
-          <input type="hidden" name="fecha_fin" value="{{ request.GET.fecha_fin }}">
-          <input type="hidden" name="agrupacion" value="{{ request.GET.agrupacion }}">
-          <input type="hidden" name="tipo_registro" value="{{ request.GET.tipo_registro }}">
-          <button type="submit" class="btn btn-danger">Descargar PDF</button>
-        </form>
+        <a href="{% url 'reporte_cafe' %}" class="btn btn-primary" role="button">
+          Descargar PDF
+        </a>
       </div>
 
       <div class="table-container">

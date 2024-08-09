@@ -7,4 +7,5 @@ urlpatterns = [
     path('empleado/', views.empleado, name='empleado'),
     path('editarempleado/<id_empleado>', views.editarempleado, name='editarempleado'),
     path('eliminaremple/<id_empleado>', views.eliminar, name='eliminaremple'),
+    path('descargar-pdf/', views.download_pdf, name='descargar_pdf'),
 ]
