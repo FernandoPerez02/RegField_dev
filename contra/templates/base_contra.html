@@ -12,42 +12,64 @@
       crossorigin="anonymous"
     />
     <style>
+  body {
+    background-image: url("{% static 'media/fondo.jpeg' %}"); /* Ruta de la imagen */
+    background-size: cover; /* Ajusta la imagen al tamaño de la pantalla */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Arial', sans-serif;
+}
+
+
       div#general {
-        background-color: #5a7346;
         box-sizing: border-box;
         align-items: center;
         height: 72vh;
         flex-wrap: wrap;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        border-radius: 10px;
+        padding: 20px;
       }
 
       div.cabezera {
         display: flex;
         align-items: center;
-        background: #5a7346;
+        background: linear-gradient(20deg, #0d2f17, rgb(69, 121, 80), #0d2f17);
         position: relative;
         height: 20vh;
-        border-bottom: 2px black solid;
+        border-bottom: 2px solid black;
+        border-radius: 10px 10px 0 0;
+        color: white;
       }
-
+      
       div.titulo {
         margin: auto;
       }
 
+      h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        color: #ffffff; /* Blanco para el título */
+      }
+
       footer {
-        display: flex;
-        padding: 1px;
-        background: rgba(0, 0, 0, 0.973);
-        border: rgba(0, 0, 0, 0.425) solid;
-        height: 8vh;
+        background: linear-gradient(20deg, #0d2f17, rgb(69, 121, 80), #0d2f17);
+        padding: 20px; /* Aumenta el padding para más espacio */
+        /* Separa el pie de página del contenido */
+        text-align: center;
+        color: #fff;
+        font-size: 0.9rem;
       }
 
       div.linea_atencion {
         margin: 0px 20px;
+        text-align: center;
+        color: #ffffff;
       }
 
       img.red_social {
         width: 30px;
-        line-height: 80px;
         margin-left: 5px;
       }
     </style>
@@ -67,6 +89,7 @@
     </div>
     <footer>
       <div class="linea_atencion">
+        © 2024 RegField. Todos los derechos reservados.
       </div>
     </footer>
     <script
@@ -77,3 +100,5 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>
+
+

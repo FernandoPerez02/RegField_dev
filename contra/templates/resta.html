@@ -3,19 +3,12 @@
 {% block title %}Restablecer contraseña{% endblock %}
 
 {% block content %}
-  <h1>Restablecer contraseña</h1>
-  {% if messages %}
-    <div class="alert alert-info text-center">
-      {% for message in messages %}
-        <div >{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
   <div class="form-container">
-    <form method="post">
+    <form id="reset-password-form" method="post">
       {% csrf_token %}
       <input type="hidden" name="uid" value="{{ id_usuario }}">
       <input type="hidden" name="token" value="{{ token }}">
+      <h1><strong>Restablecer Contraseña</strong></h1>
       <div class="form-group">
         <label for="password">Nueva contraseña:</label>
         <input type="password" name="password" id="password" required>
@@ -27,9 +20,75 @@
       <button type="submit" class="btn btn-custom">Restablecer contraseña</button>
     </form>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.getElementById('reset-password-form').onsubmit = function(event) {
+      event.preventDefault();
+  
+      var password = document.getElementById('password').value;
+      var confirmPassword = document.getElementById('confirm_password').value;
+  
+      if (password !== confirmPassword) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Las contraseñas no coinciden.'
+        });
+        return;
+      }
+  
+      var form = document.getElementById('reset-password-form');
+      var formData = new FormData(form);
+  
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+      })
+      .then(response => {
+        if (response.redirected) {
+          // Redirección detectada
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Restablecimiento exitoso.',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            window.location.href = response.url; // Redirige al login después de la confirmación
+          });
+        } else {
+          return response.text(); // Procesa la respuesta si no hay redirección
+        }
+      })
+      .then(data => {
+        if (data && data.includes('Error')) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al restablecer la contraseña.'
+          });
+        }
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al restablecer la contraseña.'
+        });
+      });
+    };
+  </script>
+  
+  
+  
+
   <style>
     .btn-custom {
-      background-color: #5a7346;
+      background: linear-gradient(20deg, #0d2f17, rgb(69, 121, 80), #0d2f17);
       color: white;
       border: none;
       padding: 10px 20px;
@@ -45,8 +104,12 @@
 
     h1 {
       color: #ffffff;
-      text-align: center;
       margin-bottom: 20px;
+      font-size: 2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      text-align: center;
     }
 
     .form-container {
@@ -57,19 +120,19 @@
     }
 
     form {
-      background: rgba(0, 0, 0, 0.973);
-      padding: 40px; /* Aumenta el padding para que el contenedor sea más alto */
+      background-color: rgba(255, 255, 255, 0.1); /* Fondo blanco semitransparente */
+      padding: 50px;
       border-radius: 10px;
       color: #ffffff;
-      width: 300px;
+      width: 400px; /* Agranda el ancho del formulario */
       text-align: center;
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.7); /* Difuminado interno blanco */
+      backdrop-filter: blur(15px); /* Efecto de desenfoque en el fondo del contenido */
     }
 
     .alert {
-     
       text-align: center;
       color: rgb(164, 36, 36);
     }
-   
   </style>
 {% endblock %}
