@@ -16,6 +16,117 @@
       crossorigin="anonymous"
     />
   </head>
+  <style>
+        .formulario {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .cuadro {
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 40px; /* Aumentar padding para mayor espacio interno */
+      width: 100%;
+      max-width: 380px; /* Ajustar ancho máximo */
+      box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px; /* Más espacio debajo del encabezado */
+    }
+
+    h1 {
+      color: #04581c;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-field {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #007bff;
+      border-radius: 5px;
+      padding: 20px;
+      font-size: 18px;
+      margin-bottom: 30px; /* Más espacio entre campos */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%; /* Asegura que todos los campos tengan el mismo ancho */
+      box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+    }
+
+    .form-field::placeholder {
+      color: #6c757d;
+      font-size: 18px;
+    }
+
+    .form-field:focus {
+      border-color: #0056b3;
+      box-shadow: 0 0 8px rgba(0, 91, 187, 0.5);
+      outline: none;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      margin-top: 20px; /* Más espacio antes del botón */
+      width: 100%; /* Asegura que el botón tenga el mismo ancho que los campos */
+      box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .exito {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .recu {
+      text-align: center;
+      margin-top: 20px; /* Más espacio sobre el enlace */
+    }
+
+    .recu a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .recu a:hover {
+      text-decoration: underline;
+    }
+
+    /* Estilo para las etiquetas */
+    form label {
+      display: block;
+      margin-bottom: 8px; /* Espacio entre el label y el campo */
+      font-weight: bold; /* Opcional: para resaltar el texto */
+    }
+
+    /* Asegura que los campos del formulario tengan un nombre específico */
+    form input[name="username"] {
+      margin-bottom: 30px; /* Espacio entre campos */
+    }
+
+    form input[name="password"] {
+      margin-bottom: 30px; /* Espacio entre campos */
+    }
+  </style>
   <body>
 
           <div class="formulario">
@@ -55,3 +166,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>
+
+
+
+
+

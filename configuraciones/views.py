@@ -6,7 +6,8 @@ from django.http import HttpResponse
 # Create your views here.
 def config(request):
     datosFinca = models.DatosFinca.objects.all()
-    return render(request, 'configuraciones.html', {'datosFinca':datosFinca})
+    hay_fincas = datosFinca.exists()
+    return render(request, 'configuraciones.html', {'datosFinca': datosFinca, 'hay_fincas': hay_fincas})
 
 def agregarconfi(request):
     if request.method == 'POST':
