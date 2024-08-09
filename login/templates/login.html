@@ -140,8 +140,8 @@
               <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Iniciar Sesión</button>
             </form>
+            <a href="{% url 'inicio' %}"><button type="#" >Iniciar Sesión</button></a>
             {% if messages %}
             <div class="exito" style="color: rgb(63, 188, 188);">
               {% for message in messages %}
