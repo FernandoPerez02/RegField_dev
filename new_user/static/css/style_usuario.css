@@ -23,7 +23,7 @@ div.formulario {
 }
 
 div.contenido {
-  background-color: rgba(96, 95, 114, 0.1);
+  background-color: rgba(186, 143, 0, 0.721);
   border-radius: 20px;
   max-width: 50vw;
   gap: 10px;
@@ -97,4 +97,6 @@ input.error:hover {
     font-size: 10px;
 }
 
-  
+
+
+
