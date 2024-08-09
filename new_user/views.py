@@ -32,10 +32,10 @@ def post_form(request):
             form.save()
             message_text = 'Bienvenido a Regfield.  Acabas de registrar un nuevo usuario en el aplicativo'
             sent = send_mail_google(gmail, 'Registro Exitoso', message_text)
-            return HttpResponse('Registro exitoso')
+            return redirect('login')
         else:
             print(form.errors)
-            return HttpResponse('Registro Fallido')
+            return redirect('usuario')
 
     
 

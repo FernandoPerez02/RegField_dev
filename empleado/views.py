@@ -36,7 +36,7 @@ def obtenerestado(request):
 
 def empleado(request):
     listar_empleado = models.Empleado.objects.all()
-    return render(request, 'empleado.html', {'listar_empleado':listar_empleado})
+    return render(request, 'empleados.html', {'listar_empleado':listar_empleado})
 
 
 def agregaregistroemple(request):
