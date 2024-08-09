@@ -63,8 +63,9 @@
                   <a href="{% url 'editarcafe' list.id_cafe %}">
                     <button type="button" class="btn btn-info">Actualizar</button>
                   </a>
-                  <a href="{% url 'delete' list.id_cafe %}">
+                  <a href="javascript:void(0)" onclick="confirmarEliminacion('{{ list.id_cafe}}')">
                     <button type="button" class="btn btn-danger">Eliminar</button>
+                  </a>
                   </a>
                 </td>
               </tr>
@@ -152,6 +153,22 @@
     <script src="{% static 'js/obteneregistros.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script>
+            function confirmarEliminacion(id_cafe) {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¿Seguro que deseas eliminar el registro?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var url = "{% url 'delete' 123 %}".replace("123", id_cafe);
+            window.location.href = url;
+          }
+        });
+      }
+      
       document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('formulario');
         const inputs = form.querySelectorAll('input, select');
