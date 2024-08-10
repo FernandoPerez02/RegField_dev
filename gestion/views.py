@@ -84,4 +84,8 @@ def download_pdf(request):
     registros = models.ManejoCafe.objects.all()  # Obtiene todos los registros del modelo. Ajusta según tu consulta.
     context = {'data': registros}  # Crea un contexto con los datos obtenidos.
     pdf = render_to_pdf('cafe_pdf.html', context)  # Llama a render_to_pdf para generar el PDF.
-    return pdf  # Devuelve el PDF generado como respuesta.
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="Registros de cafe.pdf"' 
+        return response
+    return HttpResponse("Error al generar el PDF", status=500)

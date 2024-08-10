@@ -182,6 +182,6 @@ def download_pdf(request):
     pdf = render_to_pdf('inventario_pdf.html', context)  # Llama a render_to_pdf para generar el PDF.
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="inventario.pdf"'  # Nombre del archivo descargado
+        response['Content-Disposition'] = 'attachment; filename="inventario.pdf"' 
         return response
-    return HttpResponse("Error al generar el PDF", status=500)  # Devuelve el PDF generado como respuesta.
+    return HttpResponse("Error al generar el PDF", status=500)
