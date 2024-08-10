@@ -8,6 +8,18 @@ from django.contrib import messages
 from .models import Usuario
 from .tokens import custom_token_generator
 from .functions import send_mail_google
+<<<<<<< HEAD
+=======
+from django.contrib.auth.models import User
+from django.utils.encoding import force_str
+from django.http import JsonResponse
+
+
+
+
+
+
+>>>>>>> 30f6ddf26a8b79a2e6a40477d43507c825d535a5
 # Create your views here.
 
 def base(request):
@@ -28,7 +40,7 @@ class EnviarMensaje(FormView):
         try:
             user = Usuario.objects.get(gmail=email)
         except Usuario.DoesNotExist:
-            messages.error(self.request, 'Correo electrónico no encontrado.')
+            messages.error(self.request, '')
             return self.form_invalid(form)
 
         token = custom_token_generator.make_token(user)
@@ -40,10 +52,9 @@ class EnviarMensaje(FormView):
 
         sent = send_mail_google(email, 'Restablecer contraseña', message_text)
         if sent:
-            messages.success(self.request, '.')
+            return JsonResponse({'success': 'Te hemos enviado un mensaje a tu correo electrónico.'})
         else:
-            messages.error(self.request, '')
-        return super().form_valid(form)
+            return JsonResponse({'error': 'Hubo un problema al enviar el correo.'})
 
 def resta(request, id_usuario, token):
     usuario = get_object_or_404(Usuario, id_usuario=id_usuario)
@@ -58,13 +69,13 @@ def resta(request, id_usuario, token):
             usuario.save()
 
             # Mostrar mensaje de éxito
-            messages.success(request, 'Restablecimiento Exitoso')
+            messages.success(request, '')
 
             # Redirigir al login
             return redirect('login')
         else:
             # Mostrar mensaje de error si las contraseñas no coinciden
-            messages.error(request, 'Las contraseñas no coinciden.')
+            messages.error(request, '.')
             return redirect('resta', id_usuario=id_usuario, token=token)
     
     # Renderizar la página de restablecimiento de contraseña si es una solicitud GET
