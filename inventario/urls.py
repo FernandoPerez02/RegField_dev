@@ -17,6 +17,8 @@ urlpatterns = [
     path('agregarstock/', views.agregarstock, name='agregarstock'),
     path('editarstock/<id_stockinven>', views.editarstock, name='editarstock'),
     
-    path('inventario-filter/', views.inventario_filter, name='inventario_filter'),  
+    path('inventario-filter/', views.inventario_filter, name='inventario_filter'), 
+    
+path('inventario-pdf/', views.download_pdf, name='informe_inventario'),     
     
 ]

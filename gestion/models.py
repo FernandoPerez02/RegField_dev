@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 class Empleado(models.Model):
     id_empleado = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
@@ -70,16 +68,6 @@ class ManejoCafe(models.Model):
     class Meta:
         managed = False
         db_table = 'manejo_cafe'
-
-
-class Multimedia(models.Model):
-    id_imagen = models.IntegerField(primary_key=True)
-    imagen = models.TextField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'multimedia'
-
 
 class TipoRegistro(models.Model):
     id_tipo_registro = models.AutoField(primary_key=True)

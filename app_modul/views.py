@@ -66,12 +66,7 @@ def inicio(request):
         'kilos': kilos_json,
         'usuario': user_name,
         'fechas_disponibles': fechas_disponibles
-    }
-    
-    print(fechas_disponibles)
-    print(filtro)
-    print(kilos)
-    
+    }    
     return render(request, 'inicio.html', context)
 
 

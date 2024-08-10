@@ -144,7 +144,7 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit">Iniciar Sesión</button>
-            </form>
+              </form>
             {% if messages %}
             <div class="exito" style="color: rgb(63, 188, 188);">
               {% for message in messages %}
@@ -152,6 +152,8 @@
                 {% endfor %}
             </div>
             {% endif %}
+
+            <a href="{% url 'usuario' %}" type="button" class="crear_cuenta">Crear cuenta</a>
                  
                 <span class="recu">
                   <a href="{% url 'enviar' %}"

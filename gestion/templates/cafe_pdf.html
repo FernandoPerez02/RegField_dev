@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte PDF</title>
+    <style>
+        /* Estilos básicos para la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Registros</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Kilos</th>
+                <th>Tipo Registro</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inven in data %}
+                <tr>
+                    <td>{{ list.id_empleado }}</td>
+                    <td>{{ list.peso }}</td>
+                    <td>{{ list.id_tipo_registro }}</td>
+                    <td>{{ list.fecha|date:"y/m/d" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">No se encontraron registros.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

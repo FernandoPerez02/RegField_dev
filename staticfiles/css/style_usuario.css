@@ -1,0 +1,100 @@
+body {
+  background-image: url(../img/amanecer_1.jpg);
+  background-repeat: no-repeat;
+  background-size: 100vw 99.98vh;
+}
+
+div.logo_img {
+  width: 35vw;
+  margin: auto;
+}
+header{
+  color: white;
+  display: flex;
+  justify-content: center;
+  height: 10vh;
+}
+
+div.formulario {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+
+div.contenido {
+  background-color: rgba(96, 95, 114, 0.1);
+  border-radius: 20px;
+  max-width: 50vw;
+  gap: 10px;
+}
+
+div.registro {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: 
+      'grup_usuario' 'grup_rol'
+      'grup_doc' 'grup_correo'
+      'contrasena' 'contrasena'
+      ;
+  max-height:(70vh);
+  gap: 10px;
+}
+
+div.check {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: auto;
+}
+
+div.botones{
+  display: flex;
+  gap: 20px;
+}
+
+label{
+  color: white;
+  font-size: 18px;
+  height: 3vh;
+}
+
+
+.mensaje_error {
+  color: rgb(177, 23, 23);
+  font-weight: normal;
+  font-size: 12px;
+  
+}
+
+.valido {
+  color: green;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+span.mensaje_requisito {
+  color: rgb(211, 211, 25);
+  font-weight: normal;
+  font-size: 12px;
+}
+
+input.correcto:hover {
+  border-color: darkgreen;
+}
+
+input.error:hover {
+  border-color: darkred;
+}
+
+
+.custom-swal{
+    width: 250px;
+    height: 200px;
+    margin-left: 200px;
+    font-size: 10px;
+}
+
+  

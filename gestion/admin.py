@@ -8,5 +8,4 @@ admin.site.register(models.Inventario)
 admin.site.register(models.Labor)
 admin.site.register(models.TipoRegistro)
 admin.site.register(models.ManejoCafe)
-admin.site.register(models.Multimedia)
 

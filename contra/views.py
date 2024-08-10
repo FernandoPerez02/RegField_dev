@@ -1,31 +1,16 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 from django import forms
 from django.urls import reverse
-from .forms import  EmailForm, RestaForm
+from .forms import  EmailForm
 from django.contrib import messages
 from .models import Usuario
 from .tokens import custom_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import default_token_generator
 from .functions import send_mail_google
-from django.contrib.auth.models import User
-from django.utils.encoding import force_str
 from django.http import JsonResponse
 
-
-
-
-
-
 # Create your views here.
-
-
-
 
 def base(request):
     return render(request, 'base_contra.html')

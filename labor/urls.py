@@ -7,5 +7,6 @@ urlpatterns = [
     path('obtenerestado/', views.obtenerestado, name='obtenerestado'),
     path('labor/', views.labor, name='labor'),
     path('editarlabor/<id_labor>', views.editarlabor, name='editarlabor'),
-    path('eliminarlabor/<id_labor>', views.eliminar, name='eliminarlabor')
+    path('eliminarlabor/<id_labor>', views.eliminar, name='eliminarlabor'),
+    path('labor-pdf/', views.download_pdf, name='informe_labor'),
 ]

@@ -1,0 +1,43 @@
+.table-container {
+    width: 70vw;
+    height: 40vh;
+    border: solid
+  }
+
+  .table-container .table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  .scrollable-table {
+    max-height: 35vh; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+  }
+
+  .scrollable-table table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  .scrollable-table th,
+  .scrollable-table td {
+    padding: 8px; /* Ajusta el padding según tus necesidades */
+    text-align: center;
+  }
+
+  div.buscador{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 70vw;
+    padding: 10px;
+    gap: 10px;
+}
+
+div.fechas{
+    display: flex;
+    gap: 5px;
+}
+h3.texto{
+    margin-bottom: 10px;
+}
