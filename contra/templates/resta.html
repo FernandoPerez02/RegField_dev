@@ -51,17 +51,17 @@
       })
       .then(response => {
         if (response.redirected) {
-          // Redirección detectada
+          
           Swal.fire({
             icon: 'success',
             title: 'Éxito',
             text: 'Restablecimiento exitoso.',
             confirmButtonText: 'Aceptar'
           }).then(() => {
-            window.location.href = response.url; // Redirige al login después de la confirmación
+            window.location.href = response.url; 
           });
         } else {
-          return response.text(); // Procesa la respuesta si no hay redirección
+          return response.text(); 
         }
       })
       .then(data => {
