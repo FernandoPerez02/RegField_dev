@@ -151,8 +151,9 @@
                     <p>{{ message }}</p>
                 {% endfor %}
             </div>
-            <a href="{% url 'usuario' %}"></a><div class="crear_cuenta">Crear cuenta</div>
             {% endif %}
+
+            <a href="{% url 'usuario' %}" type="button" class="crear_cuenta">Crear cuenta</a>
                  
                 <span class="recu">
                   <a href="{% url 'enviar' %}"

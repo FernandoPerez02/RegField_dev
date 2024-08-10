@@ -8,18 +8,8 @@ from django.contrib import messages
 from .models import Usuario
 from .tokens import custom_token_generator
 from .functions import send_mail_google
-<<<<<<< HEAD
-=======
-from django.contrib.auth.models import User
-from django.utils.encoding import force_str
 from django.http import JsonResponse
 
-
-
-
-
-
->>>>>>> 30f6ddf26a8b79a2e6a40477d43507c825d535a5
 # Create your views here.
 
 def base(request):
