@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from gestion import forms, models
-from django.http import HttpResponse
+
 
 # Create your views here.
 def config(request):

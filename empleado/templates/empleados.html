@@ -8,11 +8,62 @@
     <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <style>
-      .error-message {
+ .error-message {
         color: red;
         font-size: 0.9em;
         margin-top: 5px;
         display: none;
+      }
+
+      .modal-dialog {
+        max-width: 500px; /* Ajusta el ancho máximo del modal */
+        margin: 30px auto; /* Centra el modal verticalmente */
+      }
+
+      .modal-content {
+        border-radius: 8px; /* Bordes redondeados para el modal */
+      }
+
+      .modal-header {
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      .modal-body {
+        padding: 20px; /* Espaciado interno en el cuerpo del modal */
+      }
+
+      .modal-footer {
+        border-top: 1px solid #dee2e6;
+        padding: 15px; /* Espaciado interno en el pie del modal */
+      }
+
+      .form-row {
+        display: flex;
+        flex-wrap: wrap; /* Permite que los campos se ajusten */
+        gap: 1rem; /* Espacio entre los campos del formulario */
+        margin-bottom: 1rem; /* Espacio debajo de cada fila */
+      }
+
+      .form-group {
+        flex: 1 1 calc(50% - 1rem); /* Hace que los campos ocupen la mitad del ancho disponible */
+        margin-bottom: 1rem;
+      }
+
+      .form-control {
+        border: 1px solid #ced4da; /* Borde estándar */
+        border-radius: 0.25rem; /* Bordes redondeados */
+        padding: 0.375rem 0.75rem; /* Espaciado interno */
+        width: 100%; /* Ocupa el 100% del ancho disponible */
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        color: white;
       }
     </style>
   </head>

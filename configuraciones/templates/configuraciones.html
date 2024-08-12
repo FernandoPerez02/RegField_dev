@@ -164,7 +164,7 @@
                 <button type="button" class="btn btn-success" id="addFincaButton" data-hay-fincas="{% if datosFinca.count %}true{% else %}false{% endif %}">
                     Agregar Finca
                 </button>
-                <a href="{% url 'login' %}" class="btn btn-danger">Cerrar Sesión</a>
+                <a href="{% url 'inicio' %}" class="btn btn-danger">Cerrar Sesión</a>
             </div>
         </div>
     </div>
@@ -214,7 +214,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
     <!-- Fin Modal Agregar -->
 </div>
 
@@ -280,96 +280,120 @@
  </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('addFincaButton').addEventListener('click', function () {
-            let hayFincas = this.getAttribute('data-hay-fincas') === 'true';
-            if (!hayFincas) {
-                let addModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                addModal.show();
+document.addEventListener('DOMContentLoaded', function () {
+    const modalElement = document.getElementById('exampleModal');
+    const addModal = new bootstrap.Modal(modalElement);
+
+    document.getElementById('addFincaButton').addEventListener('click', function () {
+        let hayFincas = this.getAttribute('data-hay-fincas') === 'true';
+        if (!hayFincas) {
+            addModal.show();
+        }
+    });
+
+    // Validación del formulario de agregar finca
+    const agregarFincaForm = document.getElementById('agregarFincaForm');
+    const campos = [
+        {
+            id: 'nit_finca_add',
+            errorId: 'error-nit_finca_add',
+            errorMessage: 'El Nit de la finca es obligatorio y debe ser un número válido.',
+            validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
+        },
+        {
+            id: 'nombre_finca_add',
+            errorId: 'error-nombre_finca_add',
+            errorMessage: 'El nombre de la finca es obligatorio.',
+            validate: (value) => value.trim() !== ''  // No vacío
+        },
+        {
+            id: 'nombre_responsable_add',
+            errorId: 'error-nombre_responsable_add',
+            errorMessage: 'El nombre del responsable es obligatorio.',
+            validate: (value) => value.trim() !== ''  // No vacío
+        },
+        {
+            id: 'telefono_responsable_add',
+            errorId: 'error-telefono_responsable_add',
+            errorMessage: 'El teléfono del responsable es obligatorio y debe ser un número válido.',
+            validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
+        },
+        {
+            id: 'direccion_add',
+            errorId: 'error-direccion_add',
+            errorMessage: 'La dirección de la finca es obligatoria.',
+            validate: (value) => value.trim() !== ''  // No vacío
+        }
+    ];
+
+    campos.forEach(campo => {
+        document.getElementById(campo.id).addEventListener('focus', function () {
+            const errorMessage = document.getElementById(campo.errorId);
+            if (!this.value || !campo.validate(this.value)) {
+                errorMessage.innerText = campo.errorMessage;
+                errorMessage.style.display = 'block';
+                this.classList.add('error');
             }
         });
 
-        // Validación del formulario de agregar finca
-        const agregarFincaForm = document.getElementById('agregarFincaForm');
-        const campos = [
-            {
-                id: 'nit_finca_add',
-                errorId: 'error-nit_finca_add',
-                errorMessage: 'El Nit de la finca es obligatorio y debe ser un número válido.',
-                validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
-            },
-            {
-                id: 'nombre_finca_add',
-                errorId: 'error-nombre_finca_add',
-                errorMessage: 'El nombre de la finca es obligatorio.',
-                validate: (value) => value.trim() !== ''  // No vacío
-            },
-            {
-                id: 'nombre_responsable_add',
-                errorId: 'error-nombre_responsable_add',
-                errorMessage: 'El nombre del responsable es obligatorio.',
-                validate: (value) => value.trim() !== ''  // No vacío
-            },
-            {
-                id: 'telefono_responsable_add',
-                errorId: 'error-telefono_responsable_add',
-                errorMessage: 'El teléfono del responsable es obligatorio y debe ser un número válido.',
-                validate: (value) => /^[0-9]+$/.test(value)  // Validar si es un número
-            },
-            {
-                id: 'direccion_add',
-                errorId: 'error-direccion_add',
-                errorMessage: 'La dirección de la finca es obligatoria.',
-                validate: (value) => value.trim() !== ''  // No vacío
-            }
-        ];
-
-        campos.forEach(campo => {
-            document.getElementById(campo.id).addEventListener('focus', function () {
-                const errorMessage = document.getElementById(campo.errorId);
-                if (!this.value || !campo.validate(this.value)) {
-                    errorMessage.innerText = campo.errorMessage;
-                    errorMessage.style.display = 'block';
-                    this.classList.add('error');
-                }
-            });
-
-            document.getElementById(campo.id).addEventListener('blur', function () {
-                const errorMessage = document.getElementById(campo.errorId);
-                if (!this.value || !campo.validate(this.value)) {
-                    errorMessage.innerText = campo.errorMessage;
-                    errorMessage.style.display = 'block';
-                    this.classList.add('error');
-                } else {
-                    errorMessage.innerText = '';
-                    errorMessage.style.display = 'none';
-                    this.classList.remove('error');
-                }
-            });
-        });
-
-        agregarFincaForm.addEventListener('submit', function (e) {
-            let isValid = true;
-
-            campos.forEach(campo => {
-                const inputElement = document.getElementById(campo.id);
-                if (!inputElement.value || !campo.validate(inputElement.value)) {
-                    document.getElementById(campo.errorId).innerText = campo.errorMessage;
-                    document.getElementById(campo.errorId).style.display = 'block';
-                    inputElement.classList.add('error');
-                    isValid = false;
-                }
-            });
-
-            if (!isValid) {
-                e.preventDefault();  // Detener el envío si alguna validación falla
+        document.getElementById(campo.id).addEventListener('blur', function () {
+            const errorMessage = document.getElementById(campo.errorId);
+            if (!this.value || !campo.validate(this.value)) {
+                errorMessage.innerText = campo.errorMessage;
+                errorMessage.style.display = 'block';
+                this.classList.add('error');
+            } else {
+                errorMessage.innerText = '';
+                errorMessage.style.display = 'none';
+                this.classList.remove('error');
             }
         });
     });
+
+    agregarFincaForm.addEventListener('submit', function (e) {
+        let isValid = true;
+
+        campos.forEach(campo => {
+            const inputElement = document.getElementById(campo.id);
+            if (!inputElement.value || !campo.validate(inputElement.value)) {
+                document.getElementById(campo.errorId).innerText = campo.errorMessage;
+                document.getElementById(campo.errorId).style.display = 'block';
+                inputElement.classList.add('error');
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();  // Detener el envío si alguna validación falla
+        }
+    });
+
+    // Restablecer el formulario y mensajes de error al cerrar el modal
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        agregarFincaForm.reset();
+        campos.forEach(campo => {
+            const inputElement = document.getElementById(campo.id);
+            const errorMessage = document.getElementById(campo.errorId);
+            errorMessage.innerText = '';
+            errorMessage.style.display = 'none';
+            inputElement.classList.remove('error');
+        });
+
+        // Asegurarse de eliminar el fondo oscuro (backdrop) si queda después de cerrar el modal
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        
+        // Quitar la clase que desactiva el scroll al cerrar el modal
+        document.body.classList.remove('modal-open');
+        document.body.style.paddingRight = '';
+    });
+});
+
 </script>
 
 {% endblock %}
-
 
 
 

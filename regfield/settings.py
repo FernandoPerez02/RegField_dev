@@ -37,7 +37,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'app_modul/static'),
                     os.path.join(BASE_DIR, 'gestion/static'),
                     os.path.join(BASE_DIR, 'inventario/static'),
-                    os.path.join(BASE_DIR, 'new_user/static')]
+                    os.path.join(BASE_DIR, 'new_user/static'),
+                    os.path.join(BASE_DIR, 'configuraciones/static')]
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -108,11 +109,11 @@ from decouple import config
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQL_DATABASE'),
-        'USER': os.environ.get('MYSQL_USER'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': os.environ.get('MYSQL_HOST'),
-        'PORT': 3306,
+        'NAME': 'proyect_regfield',
+        'USER': 'luisperez',
+        'PASSWORD': 'regfield2024',
+        'HOST': 'localhost',
+        'PORT': 3306
     }
 }
 
