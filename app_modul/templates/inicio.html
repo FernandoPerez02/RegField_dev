@@ -11,73 +11,78 @@
     <link rel="stylesheet" href="{% static 'css/style_dashboard.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dashboard-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch; /* Asegura que los elementos hijos tengan la misma altura */
-        }
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    height: calc(49vh - 29px); /* Ajusta según el espacio total disponible */
+    margin: 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    overflow: hidden; /* Evita scroll innecesario */
+}
 
-        .filtro {
-            width: 30%;
-            padding: 20px;
-            border-right: 1px solid #ccc;
-        }
+.filtro {
+    width: 40%; /* Ajusta la anchura del filtro */
+    padding: 20px; /* Ajusta el padding para controlar el espacio interior */
+    border-right: 3px solid #ccc;
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: hidden;
+}
 
-        .grafica-container {
-            width: 65%;
-            padding: 20px;
-            height: 90%; /* Asegura que el contenedor tenga la misma altura que el dashboard */
-            display: flex;
-            align-items: center; /* Centra la gráfica verticalmente */
-            justify-content: center; /* Centra la gráfica horizontalmente */
-        }
+.filtro label {
+    margin-bottom: 3px; /* Reduce el margen inferior de las etiquetas */
+    font-size: 10px; /* Ajusta el tamaño de la fuente si es necesario */
+}
 
-        canvas {
-            width: 100% !important; /* Asegura que el canvas ocupe todo el ancho del contenedor */
-            height: auto !important; /* Ajusta la altura automáticamente para mantener la proporción */
-        }
+.filtro select, .filtro input {
+    width: 100%;
+    padding: 3px; /* Reduce el padding interior de los campos */
+    margin-bottom: 50px; /* Reduce el margen inferior de los campos */
+    height: 20px; /* Ajusta la altura de los campos */
+    font-size: 10px; /* Ajusta el tamaño de la fuente */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
+.grafica-container {
+    width: 80%;
+    padding: 15px; /* Reducir el padding para ahorrar espacio */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
+canvas {
+    width: 100% !important;
+    height: 80% !important; /* Ajustar la altura para mejor visualización */
+    display: block;
+}
 
-        /* Estilos adicionales para la tabla de graficar */
-        .filtro label {
-            display: block;
-            margin-bottom: 10px;
-        }
+.filtro label {
+    display: block;
+    margin-bottom: 8px; /* Reducir espacio entre los labels */
+}
 
-        .filtro select {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+.filtro select {
+    width: 100%;
+    padding: 4px; /* Reducir el padding para ajustar el tamaño */
+    margin-bottom: 12px; /* Reducir el margen para hacer más compacto */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
+.texto {
+    font-size: 16px; /* Reducir ligeramente el tamaño de fuente */
+    font-weight: bold;
+}
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
 
-        .texto {
-            font-size: 18px;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
