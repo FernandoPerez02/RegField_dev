@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <style>
-      .error-message {
+           .error-message {
         color: red;
         font-size: 0.9em;
         margin-top: 5px;
         display: none;
       }
+
+
     </style>
   </head>
   <body>
@@ -61,6 +63,7 @@
         </div>
       </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script>
       function confirmarEliminacion(id_labor) {
@@ -79,6 +82,8 @@
         });
       }
     </script>
+
+    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -92,37 +97,37 @@
             <form action="{% url 'agregaregistrolabor' %}" method="post">
               {% csrf_token %}
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="descripcion">Descripcion</label>
+                <div class="form-group">
+                  <label for="descripcion">Descripción</label>
                   <input type="text" class="form-control" name="descripcion" id="descripcion" required>
                   <div class="error-message"></div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group">
                   <label for="lote">Lote</label>
                   <input type="number" class="form-control" name="lote" id="lote" required>
                   <div class="error-message"></div>
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group">
                   <label for="fecha_labor">Fecha</label>
                   <input type="date" class="form-control" name="fecha_labor" id="fecha_labor" required>
                   <div class="error-message"></div>
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
+                  <label for="id_empleado">Empleado</label>
                   <select
-                        name="id_empleado"
-                        id="empleado_select"
-                        class="form-control"
-                        data-url="{% url 'obtenerempleado' %}"
-                        onchange="obtenerEmpleado()"
-                      >
-                        <option value="">Asignar Empleado</option>
-                      </select>
-                      <div class="error-message"></div>
-                      <input type="hidden" id="empleado" name="empleado" />
+                    name="id_empleado"
+                    id="empleado_select"
+                    class="form-control"
+                    data-url="{% url 'obtenerempleado' %}"
+                    onchange="obtenerEmpleado()"
+                  >
+                    <option value="">Asignar Empleado</option>
+                  </select>
+                  <div class="error-message"></div>
+                  <input type="hidden" id="empleado" name="empleado" />
                 </div>
-
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -219,3 +224,5 @@
   </body>
 </html>
 {% endblock %}
+
+

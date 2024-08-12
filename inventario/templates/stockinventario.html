@@ -67,6 +67,7 @@
             <form action="{% url 'agregarstock' %}" id="formulario" method="post">
               {% csrf_token %}
               <div class="mb-3">
+                <label for="message-text" class="col-form-label">Producto:</label>
                 <select name="id_producto" id="product_select" class="form-control" data-url="{% url 'obtenerproducto' %}" onchange="asignarproduc()">
                   <option value="">Asignar Producto</option>
                 </select>
@@ -84,6 +85,7 @@
                 <div class="error-message" id="error-unidad_medida"></div>
               </div>
               <div class="mb-3">
+                <label for="message-text" class="col-form-label">Tipo registro:</label>
                 <select name="id_tipo_registro" id="tipo_select" class="form-control" data-url="{% url 'obtenertiporegistro' %}" onchange="asignarIdTipoRegistro()">
                   <option value="">Asignar tipo registro</option>
                 </select>
