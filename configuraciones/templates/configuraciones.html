@@ -280,19 +280,10 @@
  </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('exampleModal');
-    const addModal = new bootstrap.Modal(modalElement);
-
-    document.getElementById('addFincaButton').addEventListener('click', function () {
-        let hayFincas = this.getAttribute('data-hay-fincas') === 'true';
-        if (!hayFincas) {
-            addModal.show();
-        }
-    });
-
-    // Validación del formulario de agregar finca
+document.addEventListener('DOMContentLoaded', () => {
     const agregarFincaForm = document.getElementById('agregarFincaForm');
+    const modalElement = document.getElementById('edicionModal');
+
     const campos = [
         {
             id: 'nit_finca_add',
@@ -326,27 +317,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     ];
 
+    function validateField(inputElement, campo) {
+        const errorMessage = document.getElementById(campo.errorId);
+
+        if (!campo.validate(inputElement.value)) {
+            errorMessage.innerText = campo.errorMessage;
+            errorMessage.style.display = 'block';
+            inputElement.classList.add('error');
+        } else {
+            errorMessage.innerText = '';
+            errorMessage.style.display = 'none';
+            inputElement.classList.remove('error');
+        }
+    }
+
+    // Añadir eventos de focus, blur e input para cada campo
     campos.forEach(campo => {
-        document.getElementById(campo.id).addEventListener('focus', function () {
-            const errorMessage = document.getElementById(campo.errorId);
-            if (!this.value || !campo.validate(this.value)) {
-                errorMessage.innerText = campo.errorMessage;
-                errorMessage.style.display = 'block';
-                this.classList.add('error');
-            }
+        const inputElement = document.getElementById(campo.id);
+
+        inputElement.addEventListener('focus', function () {
+            // Validar el campo que recibe el foco
+            validateField(this, campo);
         });
 
-        document.getElementById(campo.id).addEventListener('blur', function () {
-            const errorMessage = document.getElementById(campo.errorId);
-            if (!this.value || !campo.validate(this.value)) {
-                errorMessage.innerText = campo.errorMessage;
-                errorMessage.style.display = 'block';
-                this.classList.add('error');
-            } else {
-                errorMessage.innerText = '';
-                errorMessage.style.display = 'none';
-                this.classList.remove('error');
-            }
+        inputElement.addEventListener('blur', function () {
+            // Validar el campo que pierde el foco
+            validateField(this, campo);
+        });
+
+        inputElement.addEventListener('input', function () {
+            // Validar el campo mientras el usuario escribe
+            validateField(this, campo);
         });
     });
 
@@ -355,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         campos.forEach(campo => {
             const inputElement = document.getElementById(campo.id);
-            if (!inputElement.value || !campo.validate(inputElement.value)) {
+            if (!campo.validate(inputElement.value)) {
                 document.getElementById(campo.errorId).innerText = campo.errorMessage;
                 document.getElementById(campo.errorId).style.display = 'block';
                 inputElement.classList.add('error');

@@ -162,7 +162,7 @@
 
         inputs.forEach(input => {
           input.addEventListener('focus', validateField);  // Validar al hacer foco en el campo
-          input.addEventListener('blur', validateField);   // Validar al quitar foco del campo
+          input.addEventListener('input', validateField);  
         });
 
         form.addEventListener('submit', function(event) {
