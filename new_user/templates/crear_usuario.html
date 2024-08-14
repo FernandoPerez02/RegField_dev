@@ -102,6 +102,127 @@
         
           </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{% static 'js/validate.js' %}"></script>
+   <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const formulario = document.getElementById('form_newuser');
+    const botonenviar = document.getElementById('btn_register');
+    const inputs = document.querySelectorAll('input');
+    const selects = document.querySelectorAll('.form-select');
+
+    const expresiones = {
+        rol: ['Administrador', 'Encargado'],
+        usuario: /^[a-zA-Z\s]{6,15}$/i,
+        documento: /^[0-9]{6,10}$/i,
+        gmail: /^[\w.-]{1,100}@gmail(?:\.com|\.co)$/i,
+        contrasena: /^(?=.*[A-Z])(?=.*[\d!#$&*])[A-Za-z\d!#$&*]{4,8}$/,
+    };
+
+    const mensajeError = {
+        campoVacio: 'Este campo es obligatorio.',
+        caracterInvalido: 'Caracter inválido para este campo.',
+        longitudvalida: (min, max) => `La longitud debe estar entre ${min} y ${max} caracteres.`,
+    };
+
+    const validateform = (e) => {
+        let error = '';
+        const target = e.target;
+        
+        switch (target.name) {
+            case 'rol':
+                if (!expresiones.rol.includes(target.value)) {
+                    error = 'Debes asignar un rol: Administrador o Encargado.';
+                }
+                document.getElementById('rol_error').textContent = error;
+                break;
+
+            case 'usuario':
+                if (target.value === '') {
+                    error = mensajeError.campoVacio;
+                } else if (target.value.length < 6 || target.value.length > 15) {
+                    error = mensajeError.longitudvalida(6, 15);
+                } else if (!expresiones.usuario.test(target.value)) {
+                    error = 'No se admiten caracteres especiales';
+                }
+                document.getElementById('usuario_error').textContent = error;
+                break;
+
+            case 'documento':
+                if (target.value === '') {
+                    error = mensajeError.campoVacio;
+                } else if (target.value.length < 6 || target.value.length > 10) {
+                    error = mensajeError.longitudvalida(6, 10);
+                } else if (!expresiones.documento.test(target.value)) {
+                    error = mensajeError.caracterInvalido;
+                }
+                document.getElementById('doc_error').textContent = error;
+                break;
+
+            case 'gmail':
+                if (target.value === '') {
+                    error = mensajeError.campoVacio;
+                } else if (!expresiones.gmail.test(target.value)) {
+                    error = mensajeError.caracterInvalido;
+                }
+                document.getElementById('correo_error').textContent = error;
+                break;
+
+            case 'contrasena':
+                if (target.value === '') {
+                    error = mensajeError.campoVacio;
+                } else if (target.value.length < 4 || target.value.length > 8) {
+                    error = mensajeError.longitudvalida(4, 8);
+                } else if (!expresiones.contrasena.test(target.value)) {
+                    error = mensajeError.caracterInvalido;
+                }
+                document.getElementById('password_error').textContent = error;
+                break;
+
+            case 'contrasena2':
+                const contrasena = document.getElementById('password').value;
+                if (target.value === '') {
+                    error = mensajeError.campoVacio;
+                } else if (target.value !== contrasena) {
+                    error = 'Las contraseñas no coinciden.';
+                }
+                document.getElementById('password2_error').textContent = error;
+                break;
+
+            case 'terminos_condiciones':
+                if (!target.checked) {
+                    error = mensajeError.campoVacio;
+                }
+                document.getElementById('ter_con_error').textContent = error;
+                break;
+        }
+
+        target.classList.toggle('error', !!error);
+        botonenviar.disabled = !!document.querySelector('.error');
+    };
+
+    inputs.forEach((input) => {
+        input.addEventListener('focus', validateform);
+        input.addEventListener('blur', validateform);
+        input.addEventListener('input', validateform);
+    });
+
+    selects.forEach((select) => {
+        select.addEventListener('focus', validateform);
+        select.addEventListener('blur', validateform);
+        select.addEventListener('input', validateform);
+    });
+
+    formulario.addEventListener('submit', function (e) {
+        e.preventDefault();
+        inputs.forEach((input) => validateform({ target: input }));
+        selects.forEach((select) => validateform({ target: select }));
+        if (!document.querySelector('.error')) {
+            formulario.submit();
+        } else {
+            document.getElementById('alertError').textContent = 'Aún tienes campos por llenar.';
+        }
+    });
+});
+
+   </script>
 </body>
 </html>
