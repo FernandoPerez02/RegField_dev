@@ -5,7 +5,7 @@ import json
 from django.http import JsonResponse
 from django.db.models import Sum
 from . import forms
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear, TruncWeek
+from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from datetime import datetime
 
 
@@ -17,6 +17,16 @@ def base(request):
 @login_required
 def inicio(request):
     user_name = request.session.get('user_name')
+    user_role = request.session.get('user_role')
+
+    # Selección de la plantilla base según el rol del usuario
+    if user_role == 'Encargado':
+        base_template = 'base2.html'
+    elif user_role == 'Administrador':
+        base_template = 'base.html'
+    else:
+        base_template = 'base.html'  # O cualquier plantilla predeterminada
+
     form = forms.FiltroFechaForm(request.GET or None)
 
     # Obtener los datos según el filtro
@@ -65,7 +75,8 @@ def inicio(request):
         'form': form,
         'kilos': kilos_json,
         'usuario': user_name,
-        'fechas_disponibles': fechas_disponibles
+        'fechas_disponibles': fechas_disponibles,
+        'base_template': base_template
     }
     return render(request, 'inicio.html', context)
 

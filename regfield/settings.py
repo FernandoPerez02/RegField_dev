@@ -25,9 +25,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.ngrok.io']
+ALLOWED_HOSTS = []
 
-CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io']
+CSRF_TRUSTED_ORIGINS = []
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -96,6 +96,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'app_modul.context_processor.name_finca',
                 'app_modul.context_processor.user_context',
+                'app_modul.context_processor.base_template',
             ],
         },
     },
@@ -113,7 +114,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'proyect_regfield',
         'USER': 'luisperez',
-        'PASSWORD': 'regfield2024',
+        'PASSWORD': 'luis02',
         'HOST': 'localhost',
         'PORT': 3306
     }

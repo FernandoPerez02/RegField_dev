@@ -84,11 +84,6 @@
         color: #f4f1ea; /* Cambia el color del texto en hover para contraste */
       }
 
-      main {
-        display: flex;
-        height: 46.8vh;
-      }
-
       /* Contenedor principal centrado */
       .main-container {
         width: 100%;
@@ -152,10 +147,12 @@
         </div>
 
         <div class="usuario"> 
-          <h3 id="user_name">Bienvenido {{ logged_in_user.username }}!</h3>
+          <h3 id="user_name">Bienvenido, {{ logged_in_user.username }}!</h3>
         </div>
       </div>
+    </header>
 
+    <main>
       <div class="menu">
         <nav>
           <ul>
@@ -164,14 +161,11 @@
             <a href="{% url 'inventario' %}"><h4>Inventario</h4></a>
             <a href="{% url 'gestioncafe' %}"><h4>Manejo Cafe</h4></a>
             <a href="{% url 'labor' %}"><h4>Labor</h4></a>
-            <a href="{% url 'confi' %}"><h4>Datos Finca</h4></a>
           </ul>
         </nav>
       </div>
-    </header>
-
-
-    <main>
+      
+      <!-- Contenedor principal centrado -->
       <div class="main-container">
         <div class="contenido">
           {% block filtro %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends base_template %}
 {% load static %}
 {% block content %}
 
@@ -36,6 +36,7 @@
                 <th>Kilos</th>
                 <th>Tipo Registro</th>
                 <th>Fecha</th>
+                <th>Cafe disponible</th>
                 <th>Opciones</th>
               </tr>
             </thead>
@@ -46,6 +47,7 @@
                 <td>{{ list.peso }}</td>
                 <td>{{ list.id_tipo_registro }}</td>
                 <td>{{ list.fecha|date:"y/m/d" }}</td>
+                
                 <td>
                   <a href="{% url 'editarcafe' list.id_cafe %}">
                     <button type="button" class="btn btn-info">Actualizar</button>
@@ -57,6 +59,7 @@
                 </td>
               </tr>
               {% endfor %}
+
             </tbody>
           </table>
         </div>
